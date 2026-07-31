@@ -17,6 +17,26 @@
 #
 set -euo pipefail
 
+# --- self-upgrade: pull the latest version of this script, then re-exec ------
+# Runs `git pull` in this script's own repo so the newest upgrade.sh runs.
+# The UPGRADE_SH_SELF_UPGRADED guard prevents an infinite re-exec loop: the
+# second run sees it set and skips straight past this block.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -z "${UPGRADE_SH_SELF_UPGRADED:-}" ]; then
+  if git -C "$SCRIPT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "Self-upgrading: git pull in $SCRIPT_DIR ..."
+    if git -C "$SCRIPT_DIR" pull --ff-only; then
+      export UPGRADE_SH_SELF_UPGRADED=1
+      echo "Re-executing upgraded script."
+      exec "${BASH_SOURCE[0]}" "$@"
+    else
+      echo "git pull failed — continuing with the current version." >&2
+    fi
+  else
+    echo "$SCRIPT_DIR is not a git work tree — skipping self-upgrade." >&2
+  fi
+fi
+
 # --- configuration (matches the live Traefik static config) -----------------
 STATIC_DIR="${STATIC_DIR:-$HOME/web/static}"
 DYNAMIC_DIR="${DYNAMIC_DIR:-$HOME/web/traefik/dynamic}"

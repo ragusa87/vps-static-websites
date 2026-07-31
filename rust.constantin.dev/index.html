@@ -4217,13 +4217,23 @@ v.<span class="f">iter</span>().<span class="f">rev</span>().<span class="f">tak
   var bar = document.getElementById('scrollbar');
   var ticking = false;
 
+  // Where an anchored section comes to rest below the viewport top. Both
+  // scroll-padding-top (on <html>) and scroll-margin-top (on <section>) stack,
+  // so read them from the CSS instead of hardcoding — otherwise the active
+  // marker lands above the section and the previous item stays highlighted.
+  function activationLine() {
+    var pad = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+    var margin = sections[0] ? (parseFloat(getComputedStyle(sections[0]).scrollMarginTop) || 0) : 0;
+    return pad + margin + 8; // small tolerance so the just-landed section counts
+  }
+
   function onScroll() {
     var doc = document.documentElement;
     var max = doc.scrollHeight - doc.clientHeight;
     var pct = max > 0 ? (doc.scrollTop / max) * 100 : 0;
     bar.style.width = Math.min(100, Math.max(0, pct)) + '%';
 
-    var marker = doc.scrollTop + 120;
+    var marker = doc.scrollTop + activationLine();
     var active = sections[0];
     sections.forEach(function (sec) {
       if (sec.offsetTop <= marker) active = sec;

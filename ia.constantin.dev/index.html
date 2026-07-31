@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carnet de préparation — Développeur·euse IA appliquée (ifage)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root, :root[data-theme="light"]{
+  --bg:#F5F6F9; --grid:rgba(58,47,176,.06);
+  --surface:#FFFFFF; --surface-2:#EEF0F6;
+  --ink:#161A22; --ink-soft:#4A5163; --ink-faint:#8A90A2;
+  --line:#E1E4EE; --line-strong:#C9CDDC;
+  --indigo:#3F35C7; --indigo-soft:#EAE8FB;
+  --amber:#DE8A16; --amber-soft:#FCEFD6;
+  --teal:#0A9D89; --teal-soft:#DCF3EF;
+  --rose:#C9424A; --rose-soft:#FADEDF;
+  --code-bg:#0F1220; --code-ink:#E7E9F4;
+  --shadow:0 1px 2px rgba(20,24,40,.05), 0 10px 30px -18px rgba(20,24,40,.35);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme]){
+    --bg:#0D0F16; --grid:rgba(139,132,255,.07);
+    --surface:#161A25; --surface-2:#1E2331;
+    --ink:#E7EAF3; --ink-soft:#A7AEC2; --ink-faint:#6C7387;
+    --line:#282E3D; --line-strong:#3A4256;
+    --indigo:#9089FF; --indigo-soft:#221F3D;
+    --amber:#F0A945; --amber-soft:#2E2413;
+    --teal:#33C6B1; --teal-soft:#0F2A28;
+    --rose:#E77982; --rose-soft:#2E1719;
+    --code-bg:#080A12; --code-ink:#DDE0EE;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 14px 34px -20px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D0F16; --grid:rgba(139,132,255,.07);
+  --surface:#161A25; --surface-2:#1E2331;
+  --ink:#E7EAF3; --ink-soft:#A7AEC2; --ink-faint:#6C7387;
+  --line:#282E3D; --line-strong:#3A4256;
+  --indigo:#9089FF; --indigo-soft:#221F3D;
+  --amber:#F0A945; --amber-soft:#2E2413;
+  --teal:#33C6B1; --teal-soft:#0F2A28;
+  --rose:#E77982; --rose-soft:#2E1719;
+  --code-bg:#080A12; --code-ink:#DDE0EE;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 14px 34px -20px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.65;font-size:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;transition:background-color .35s ease,color .35s ease;}
+.wrap{max-width:920px;margin:0 auto;padding:0 22px}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--indigo),var(--amber));width:0;z-index:60;transition:width .1s linear}
+header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-inner{display:flex;align-items:center;justify-content:space-between;gap:14px;height:60px}
+.brand{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk';font-weight:600;letter-spacing:-.01em;font-size:15px}
+.logo-mat{font-family:'IBM Plex Mono';font-weight:600;color:var(--indigo);border:1.5px solid var(--indigo);border-radius:6px;padding:2px 7px;font-size:13px;position:relative}
+.logo-mat::before,.logo-mat::after{content:"";position:absolute;top:2px;bottom:2px;width:4px;border:1.5px solid var(--indigo)}
+.logo-mat::before{left:-6px;border-right:none;border-radius:3px 0 0 3px}
+.logo-mat::after{right:-6px;border-left:none;border-radius:0 3px 3px 0}
+.top-tools{display:flex;align-items:center;gap:10px}
+.score-pill{font-family:'IBM Plex Mono';font-size:12.5px;color:var(--ink-soft);background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:5px 11px;white-space:nowrap}
+.score-pill b{color:var(--indigo)}
+.theme-btn{cursor:pointer;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:999px;height:34px;width:34px;display:grid;place-items:center;font-size:16px;transition:transform .2s,border-color .2s;touch-action:manipulation}
+.theme-btn:hover{transform:rotate(-12deg);border-color:var(--indigo)}
+.theme-btn:focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
+.hero{padding:64px 0 40px;position:relative;overflow:hidden}
+.eyebrow{font-family:'IBM Plex Mono';font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:0 0 16px}
+.hero h1{font-family:'Space Grotesk';font-weight:700;font-size:clamp(30px,6vw,52px);line-height:1.04;letter-spacing:-.025em;margin:0 0 18px}
+.hero h1 .glow{color:var(--indigo)}
+.hero p.lead{font-size:clamp(16px,2.2vw,19px);color:var(--ink-soft);max-width:640px;margin:0 0 26px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.chip{font-family:'IBM Plex Mono';font-size:12px;border:1px solid var(--line-strong);border-radius:6px;padding:5px 10px;color:var(--ink-soft);background:var(--surface)}
+.chip b{color:var(--ink)}
+nav.toc{position:sticky;top:60px;z-index:40;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(10px);padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:8px}
+.toc-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+.toc-scroll a{flex:none;text-decoration:none;font-size:13px;font-weight:500;color:var(--ink-soft);border:1px solid var(--line);background:var(--surface);padding:6px 12px;border-radius:999px;white-space:nowrap;transition:all .18s}
+.toc-scroll a:hover{color:var(--ink);border-color:var(--line-strong)}
+.toc-scroll a.active{color:#fff;background:var(--indigo);border-color:var(--indigo)}
+:root[data-theme="dark"] .toc-scroll a.active{color:#0D0F16}
+@media (prefers-color-scheme:dark){:root:not([data-theme]) .toc-scroll a.active{color:#0D0F16}}
+section{padding:40px 0;scroll-margin-top:120px}
+.part-head{border-top:2px solid var(--ink);padding-top:14px;margin-bottom:8px}
+.part-tag{font-family:'IBM Plex Mono';font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber)}
+.part-head h2{font-family:'Space Grotesk';font-weight:700;font-size:clamp(24px,4vw,34px);letter-spacing:-.02em;margin:6px 0 10px;line-height:1.1}
+.part-head p{color:var(--ink-soft);max-width:660px;margin:0}
+h3{font-family:'Space Grotesk';font-weight:600;font-size:22px;letter-spacing:-.01em;margin:38px 0 6px;display:flex;align-items:baseline;gap:12px}
+h3 .num{font-family:'IBM Plex Mono';font-size:13px;color:var(--indigo);border:1px solid var(--indigo);border-radius:5px;padding:1px 7px;flex:none;transform:translateY(-2px)}
+h4{font-family:'Space Grotesk';font-weight:600;font-size:16.5px;margin:22px 0 4px;color:var(--ink)}
+p{margin:12px 0}
+strong{color:var(--ink);font-weight:600}
+.term{color:var(--indigo);font-weight:600}
+ul,ol{padding-left:22px;margin:12px 0}
+li{margin:6px 0}
+li::marker{color:var(--indigo)}
+.week{border-left:3px solid var(--indigo);padding-left:18px;margin-top:30px}
+.week .wtag{font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber)}
+.week h3{margin-top:2px}
+.note{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:16px 18px;margin:18px 0;box-shadow:var(--shadow)}
+.note .lbl{font-family:'IBM Plex Mono';font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.note.ex{border-left:4px solid var(--amber)}
+.note.ex .lbl{color:var(--amber)}
+.note.key{border-left:4px solid var(--teal);background:var(--teal-soft)}
+.note.key .lbl{color:var(--teal)}
+.note.intuition{border-left:4px solid var(--indigo);background:var(--indigo-soft)}
+.note.intuition .lbl{color:var(--indigo)}
+.note p:first-of-type{margin-top:2px}
+.note p:last-child{margin-bottom:0}
+pre{background:var(--code-bg);color:var(--code-ink);border-radius:12px;padding:16px 18px;overflow-x:auto;font-family:'IBM Plex Mono';font-size:13.5px;line-height:1.6;margin:16px 0;box-shadow:var(--shadow)}
+pre .c{color:#7f86a8}
+pre .k{color:#f0a945}
+pre .s{color:#7fd6a0}
+pre .o{color:#e77982}
+pre .f{color:#8fb8ff}
+code{font-family:'IBM Plex Mono';font-size:.9em;background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+.code-cap{font-family:'IBM Plex Mono';font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--indigo);margin:22px 0 -8px;display:flex;align-items:center;gap:7px}
+.code-cap::before{content:"</>";font-weight:600}
+.matrix-row{display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin:18px 0}
+.mat{display:inline-grid;gap:4px 14px;font-family:'IBM Plex Mono';font-size:15px;padding:10px 16px;position:relative;color:var(--ink)}
+.mat::before,.mat::after{content:"";position:absolute;top:4px;bottom:4px;width:8px;border:2px solid var(--indigo)}
+.mat::before{left:0;border-right:none;border-radius:4px 0 0 4px}
+.mat::after{right:0;border-left:none;border-radius:0 4px 4px 0}
+.mat span{text-align:center;min-width:22px}
+.mat.tiny{font-size:13px;padding:6px 13px}
+.mat-lbl{font-family:'IBM Plex Mono';font-size:12.5px;color:var(--ink-faint)}
+.dim-badge{font-family:'IBM Plex Mono';font-size:12px;color:var(--amber)}
+.calc{font-family:'IBM Plex Mono';font-size:14px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:15px 17px;margin:16px 0;line-height:1.95}
+.calc .cl{color:var(--ink-soft)}
+.calc .cl .lab{color:var(--indigo)}
+.calc .cl .hl{color:var(--amber)}
+.calc .cl b{color:var(--ink)}
+.calc .cres{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line-strong);color:var(--ink);font-weight:600}
+.ladder{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.rung{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--surface);box-shadow:var(--shadow)}
+.rung .r-top{font-family:'IBM Plex Mono';font-size:12px;color:var(--amber);margin-bottom:4px}
+.rung .r-name{font-family:'Space Grotesk';font-weight:600;font-size:16px}
+.rung .r-shape{font-family:'IBM Plex Mono';font-size:12.5px;color:var(--ink-faint);margin-top:2px}
+.rung .r-ex{font-size:13px;color:var(--ink-soft);margin-top:6px}
+.libs{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:16px 0}
+.lib{border:1px solid var(--line);border-radius:12px;padding:15px 16px;background:var(--surface);box-shadow:var(--shadow);transition:transform .18s,border-color .18s}
+.lib:hover{transform:translateY(-3px);border-color:var(--indigo)}
+.lib .l-name{font-family:'IBM Plex Mono';font-weight:600;font-size:15px;color:var(--indigo)}
+.lib .l-role{font-family:'IBM Plex Mono';font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);margin:3px 0 7px}
+.lib .l-desc{font-size:13.5px;color:var(--ink-soft)}
+.gloss{margin:16px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.gloss dt{font-family:'IBM Plex Mono';font-weight:600;color:var(--indigo);padding:12px 16px 2px;font-size:14px}
+.gloss dd{margin:0;padding:0 16px 12px;font-size:14px;color:var(--ink-soft);border-bottom:1px solid var(--line)}
+.gloss dd:last-child{border-bottom:none}
+details{border:1px solid var(--line);border-radius:12px;background:var(--surface);margin:16px 0;overflow:hidden}
+details summary{cursor:pointer;padding:13px 16px;font-family:'Space Grotesk';font-weight:600;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";font-family:'IBM Plex Mono';color:var(--indigo);font-size:20px;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details .d-body{padding:0 16px 14px;color:var(--ink-soft);font-size:14.5px}
+.quiz{border:1px solid var(--line-strong);border-radius:14px;background:var(--surface);padding:18px 18px 8px;margin:22px 0;box-shadow:var(--shadow)}
+.quiz-head{display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono';font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+.quiz-head .dot{width:8px;height:8px;border-radius:50%;background:var(--amber);transition:box-shadow .4s}
+.quiz.solved .quiz-head .dot{background:var(--teal);box-shadow:0 0 0 5px var(--teal-soft)}
+.qq{margin-bottom:20px}
+.qq .q-text{font-weight:600;font-size:15.5px;margin-bottom:10px}
+.qq .q-text .qnum{font-family:'IBM Plex Mono';color:var(--indigo);margin-right:6px}
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:11px 14px;margin:7px 0;font-size:14.5px;cursor:pointer;font-family:'Inter';transition:border-color .15s,background .15s,transform .1s;touch-action:manipulation}
+.opt:hover:not(:disabled){border-color:var(--indigo)}
+.opt:focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
+.opt:disabled{cursor:default}
+.opt.selected{border-color:var(--indigo);background:var(--indigo-soft)}
+.opt.selected .mark::after{content:"●";color:var(--indigo);font-family:'IBM Plex Mono';float:right}
+.opt.correct{border-color:var(--teal);background:var(--teal-soft)}
+.opt.wrong{border-color:var(--rose);background:var(--rose-soft)}
+.opt .mark{float:right;font-family:'IBM Plex Mono';font-weight:600}
+.opt.correct .mark{color:var(--teal)}
+.opt.wrong .mark{color:var(--rose)}
+.q-actions{margin:14px 0 4px}
+.verify-btn{font-family:'Space Grotesk';font-weight:600;font-size:13.5px;cursor:pointer;border:1px solid var(--indigo);background:var(--indigo);color:#fff;border-radius:9px;padding:9px 17px;transition:opacity .2s,transform .1s,background .2s;touch-action:manipulation}
+:root[data-theme="dark"] .verify-btn{color:#0D0F16}
+@media (prefers-color-scheme:dark){:root:not([data-theme]) .verify-btn{color:#0D0F16}}
+.verify-btn:disabled{opacity:.4;cursor:not-allowed}
+.verify-btn:not(:disabled):hover{transform:translateY(-1px)}
+.verify-btn.done{background:transparent;border-color:var(--line-strong);color:var(--teal);cursor:default;opacity:1}
+:root[data-theme="dark"] .verify-btn.done{color:var(--teal)}
+.verify-btn.done:hover{transform:none}
+.explain{display:none;margin-top:10px;font-size:14px;border-left:3px solid var(--indigo);background:var(--indigo-soft);padding:10px 13px;border-radius:0 8px 8px 0;color:var(--ink-soft)}
+.explain.show{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1}}
+.explain b{color:var(--indigo)}
+.exo{border:1px dashed var(--indigo);border-radius:14px;background:var(--surface);padding:16px 18px;margin:22px 0;box-shadow:var(--shadow)}
+.exo .exo-head{font-family:'IBM Plex Mono';font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.exo .exo-head::before{content:"✎"}
+.exo .exo-task{font-size:14.5px}
+.exo .exo-task p{margin:8px 0}
+.exo .exo-task pre{margin:12px 0}
+.exo-btn{margin-top:13px;font-family:'Space Grotesk';font-weight:600;font-size:13.5px;cursor:pointer;border:1px solid var(--line-strong);background:var(--surface-2);color:var(--ink);border-radius:9px;padding:8px 15px;transition:border-color .2s,color .2s;touch-action:manipulation}
+.exo-btn:hover{border-color:var(--indigo);color:var(--indigo)}
+.exo-solution{display:none;margin-top:13px;border-left:3px solid var(--teal);background:var(--teal-soft);padding:12px 15px;border-radius:0 8px 8px 0;font-size:14px;color:var(--ink-soft)}
+.exo-solution.show{display:block;animation:fade .35s ease}
+.exo-solution .sol-lbl{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+.exo-solution b{color:var(--ink)}
+.exo-solution pre{margin:10px 0}
+/* ---- widget produit matriciel animé (isolé sous .mviz) ---- */
+.mviz{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:20px 18px;margin:18px 0;box-shadow:var(--shadow)}
+.mviz .eq{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin:2px 0 6px}
+.mviz .blk{text-align:center}
+.mviz .cap{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;height:13px}
+.mviz .op{font-family:'IBM Plex Mono';font-size:24px;color:var(--amber);font-weight:600;transform:translateY(9px)}
+.mviz .vmat{position:relative;display:inline-grid;gap:8px;padding:12px 18px}
+.mviz .vmat::before,.mviz .vmat::after{content:"";position:absolute;top:5px;bottom:5px;width:9px;border:2.5px solid var(--line-strong)}
+.mviz .vmat::before{left:0;border-right:none;border-radius:5px 0 0 5px}
+.mviz .vmat::after{right:0;border-left:none;border-radius:0 5px 5px 0}
+.mviz .cell{font-family:'IBM Plex Mono';font-size:19px;font-weight:500;width:44px;height:44px;display:grid;place-items:center;border-radius:9px;transition:.25s;position:relative;color:var(--ink);background:transparent}
+.mviz .cell.dimmed{opacity:.32}
+.mviz .cell.rowlit{background:var(--indigo-soft)}
+.mviz .cell.active{background:var(--amber);color:#fff;box-shadow:0 0 0 4px var(--amber-soft);transform:scale(1.08)}
+:root[data-theme="dark"] .mviz .cell.active{color:#0D0F16}
+@media(prefers-color-scheme:dark){:root:not([data-theme]) .mviz .cell.active{color:#0D0F16}}
+.mviz .cell.filled{background:var(--teal-soft);color:var(--teal);font-weight:600}
+.mviz .cell .ptr{position:absolute;font-family:'IBM Plex Mono';font-size:14px;color:var(--amber);opacity:0;transition:.2s;font-weight:700}
+.mviz .cell.active .ptr{opacity:1}
+.mviz .ptr.left{left:-15px}
+.mviz .ptr.top{top:-16px}
+.mviz .vcalc{margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-family:'IBM Plex Mono';font-size:14.5px;min-height:100px}
+.mviz .vcalc .line{color:var(--ink-soft);opacity:0;transform:translateY(4px);transition:.25s;margin:3px 0}
+.mviz .vcalc .line.show{opacity:1;transform:none}
+.mviz .vcalc .vsum{color:var(--ink);font-weight:600;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line-strong)}
+.mviz .vcalc .vsum .val{color:var(--indigo);font-size:16px}
+.mviz .vhint{font-size:13.5px;color:var(--ink-soft);margin:14px 2px 0;min-height:36px}
+.mviz .vhint b{color:var(--ink)}
+.mviz .vctrl{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.mviz .vbtn{font-family:'Space Grotesk';font-weight:600;font-size:13.5px;cursor:pointer;border-radius:10px;padding:10px 16px;border:1px solid var(--indigo);background:var(--indigo);color:#fff;transition:.15s;touch-action:manipulation;flex:1;min-width:120px}
+:root[data-theme="dark"] .mviz .vbtn{color:#0D0F16}
+@media(prefers-color-scheme:dark){:root:not([data-theme]) .mviz .vbtn{color:#0D0F16}}
+.mviz .vbtn:hover{transform:translateY(-1px)}
+.mviz .vbtn.ghost{background:transparent;color:var(--ink);border-color:var(--line-strong);flex:0 0 auto;min-width:0}
+.mviz .vbtn:disabled{opacity:.4;cursor:default;transform:none}
+.mviz .vleg{font-family:'IBM Plex Mono';font-size:11px;color:var(--ink-faint);margin-top:14px;display:flex;gap:14px;flex-wrap:wrap}
+.mviz .vleg span{display:inline-flex;align-items:center;gap:6px}
+.mviz .sw{width:12px;height:12px;border-radius:4px;display:inline-block}
+/* ---- schémas SVG (réseau de neurones, boucle d'apprentissage) ---- */
+.diagram{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 14px 12px;margin:18px 0;box-shadow:var(--shadow)}
+.diagram svg{width:100%;height:auto;display:block;max-width:560px;margin:0 auto}
+.diagram .dtitle{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--indigo);text-align:center;margin-bottom:8px}
+.diagram figcaption{font-size:13px;color:var(--ink-soft);text-align:center;margin:8px 6px 2px}
+.nn-node{fill:var(--surface-2);stroke:var(--line-strong);stroke-width:2}
+.nn-node.in{stroke:var(--amber)}
+.nn-node.hid{stroke:var(--indigo)}
+.nn-node.out{stroke:var(--teal)}
+.nn-edge{stroke:var(--line-strong);stroke-width:1.4;opacity:.5}
+.nn-edge.hot{stroke:var(--amber);opacity:1;stroke-width:2.4}
+.nn-txt{fill:var(--ink);font-family:'IBM Plex Mono';font-size:15px;font-weight:600;text-anchor:middle;dominant-baseline:middle}
+.nn-big{fill:var(--ink);font-family:'IBM Plex Mono';font-size:22px;font-weight:600;text-anchor:middle;dominant-baseline:middle}
+.nn-sub{fill:var(--ink-faint);font-family:'IBM Plex Mono';font-size:11px;text-anchor:middle}
+.nn-wlbl{fill:var(--amber);font-family:'IBM Plex Mono';font-size:11.5px;font-weight:600;text-anchor:middle}
+.nn-flow{fill:none;stroke:var(--indigo);stroke-width:2.4}
+.nn-head{fill:var(--indigo)}
+.fb-box{fill:var(--surface-2);stroke:var(--line-strong);stroke-width:2}
+.fb-box.net{stroke:var(--indigo)}
+.fb-box.loss{stroke:var(--rose)}
+.fb-box.upd{stroke:var(--teal)}
+.fb-txt{fill:var(--ink);font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;text-anchor:middle;dominant-baseline:middle}
+.fb-sub{fill:var(--ink-soft);font-family:'Inter',sans-serif;font-size:10.5px;text-anchor:middle}
+.fb-loop{fill:var(--amber);font-family:'IBM Plex Mono';font-size:11px;text-anchor:middle;font-weight:600}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:34px 0 60px;color:var(--ink-faint);font-size:13.5px}
+footer .f-title{font-family:'Space Grotesk';font-weight:600;color:var(--ink-soft);font-size:15px;margin-bottom:6px}
+.reset-btn{margin-top:14px;font-family:'IBM Plex Mono';font-size:12.5px;cursor:pointer;background:none;border:1px dashed var(--line-strong);color:var(--ink-soft);border-radius:8px;padding:6px 12px;touch-action:manipulation}
+.reset-btn:hover{border-color:var(--rose);color:var(--rose)}
+.back-top{position:fixed;bottom:20px;right:20px;z-index:45;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);color:var(--indigo);font-size:18px;cursor:pointer;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .3s,transform .2s;touch-action:manipulation}
+.back-top.show{opacity:1;pointer-events:auto}
+.back-top:hover{transform:translateY(-3px)}
+@media (max-width:560px){.hero{padding:44px 0 30px}section{padding:30px 0}.top-tools .score-pill{display:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<header class="top">
+  <div class="wrap top-inner">
+    <div class="brand"><span class="logo-mat">IA</span> Carnet de préparation</div>
+    <div class="top-tools">
+      <span class="score-pill" id="scorePill">Quiz&nbsp;: <b id="scoreNum">0</b> / <span id="scoreTot">0</span></span>
+      <button class="theme-btn" id="themeBtn" aria-label="Basculer le thème clair/sombre" title="Thème clair / sombre">◐</button>
+    </div>
+  </div>
+</header>
+<div class="wrap">
+  <div class="hero">
+    <p class="eyebrow">ifage · Développeur·euse d'IA appliquée · 15 semaines</p>
+    <h1>Comprendre l'IA<br>avant d'écrire<br>la <span class="glow">première ligne</span>.</h1>
+    <p class="lead">Tu connais déjà Python. Ce carnet ne t'apprend pas la syntaxe&nbsp;: il t'apprend à <strong>penser en matrices, en modèles et en gradients</strong>. La Partie 1 pose les fondations. La Partie 2 t'accompagne semaine après semaine, avec du code pour chaque concept.</p>
+    <div class="meta-row">
+      <span class="chip"><b>Partie 1</b> · fondations Python pour l'IA</span>
+      <span class="chip"><b>Partie 2</b> · concepts + code, semaine par semaine</span>
+      <span class="chip">quiz à valider · exercices · exemples</span>
+    </div>
+  </div>
+</div>
+<nav class="toc">
+  <div class="wrap">
+    <div class="toc-scroll" id="tocScroll">
+      <a href="#p1">Partie 1 · Fondations</a>
+      <a href="#w12">S1–2 · Intro IA</a>
+      <a href="#w34">S3–4 · Vision</a>
+      <a href="#w5">S5 · Renforcement</a>
+      <a href="#w68">S6–8 · NLP</a>
+      <a href="#llm">LLM · anatomie</a>
+      <a href="#w911">S9–11 · Génératif</a>
+      <a href="#w1213">S12–13 · Agentique</a>
+      <a href="#w1415">S14–15 · Projet</a>
+    </div>
+  </div>
+</nav>
+<main class="wrap">
+
+<!-- ============ PARTIE 1 ============ -->
+<section id="p1">
+  <div class="part-head">
+    <span class="part-tag">Partie 1 — Se préparer</span>
+    <h2>Les fondations Python pour l'IA</h2>
+    <p>Pas de <code>for</code>, pas de classes&nbsp;: tu maîtrises tout ça. Ce qui change en IA, c'est <em>l'objet</em> manipulé. On ne pousse plus des lignes de base de données&nbsp;: on pousse des <strong>tableaux de nombres</strong> à travers des opérations mathématiques.</p>
+  </div>
+
+  <h3><span class="num">1.1</span> La bascule mentale : de la boucle au tableau</h3>
+  <p>En Django, additionner deux listes appelle une boucle. En IA, ce réflexe devient un piège de performance. Tout repose sur <span class="term">NumPy</span> et son <strong>ndarray</strong>, qui applique une opération à des millions de nombres d'un coup&nbsp;: la <span class="term">vectorisation</span>.</p>
+  <pre><span class="c"># Réflexe "dev classique" — lent</span>
+c = []
+<span class="k">for</span> i <span class="k">in</span> <span class="k">range</span>(len(a)):
+    c.append(a[i] + b[i])
+
+<span class="c"># Réflexe "IA" — vectorisé, ~100× plus rapide</span>
+<span class="k">import</span> numpy <span class="k">as</span> np
+c = np.array(a) + np.array(b)   <span class="c"># une seule opération</span></pre>
+  <div class="note intuition"><div class="lbl">Intuition</div><p>Un réseau de neurones, c'est des milliards d'additions et de multiplications. En boucle Python, l'entraînement prendrait des jours. NumPy délègue à du code compilé et au GPU. <strong>La vectorisation n'est pas une optimisation, c'est le paradigme.</strong></p></div>
+
+  <h3><span class="num">1.2</span> Scalaire, vecteur, matrice, tenseur</h3>
+  <p>Tous les objets de l'IA sont un tableau de nombres, avec plus ou moins de dimensions. L'échelle la plus importante à intérioriser&nbsp;:</p>
+  <div class="ladder">
+    <div class="rung"><div class="r-top">0 dimension</div><div class="r-name">Scalaire</div><div class="r-shape">()</div><div class="r-ex">Un nombre. Ex&nbsp;: un taux d'apprentissage <code>0.001</code>.</div></div>
+    <div class="rung"><div class="r-top">1 dimension</div><div class="r-name">Vecteur</div><div class="r-shape">(n,)</div><div class="r-ex">Une liste. Ex&nbsp;: les 3 valeurs RVB d'un pixel.</div></div>
+    <div class="rung"><div class="r-top">2 dimensions</div><div class="r-name">Matrice</div><div class="r-shape">(lignes, colonnes)</div><div class="r-ex">Un tableau. Ex&nbsp;: une image en niveaux de gris.</div></div>
+    <div class="rung"><div class="r-top">3+ dimensions</div><div class="r-name">Tenseur</div><div class="r-shape">(…, …, …)</div><div class="r-ex">Ex&nbsp;: 32 images couleur = (32, 128, 128, 3).</div></div>
+  </div>
+  <div class="note key"><div class="lbl">À retenir</div><p>Le mot <strong>« tenseur »</strong> t'accompagnera toute la formation (le « Tensor » de TensorFlow). Rien de mystérieux&nbsp;: <strong>un tableau de nombres à N dimensions</strong>. Scalaire, vecteur et matrice sont des tenseurs de dimension 0, 1 et 2.</p></div>
+
+  <h3><span class="num">1.3</span> La forme (shape) : l'obsession n°1</h3>
+  <p>La majorité des bugs en IA sont des <strong>erreurs de forme</strong>. Réflexe avant chaque opération&nbsp;: <em>quelle est la forme de mon tableau, et laquelle l'opération attend-elle&nbsp;?</em> Les <span class="term">axes</span> sont numérotés à partir de 0.</p>
+  <pre>x = np.zeros((<span class="s">32</span>, <span class="s">128</span>, <span class="s">128</span>, <span class="s">3</span>))
+x.shape        <span class="o"># (32, 128, 128, 3)</span>
+x.ndim         <span class="o"># 4  → nombre de dimensions</span>
+x.size         <span class="o"># 1 572 864  → total d'éléments</span>
+<span class="c"># axe 0 = le lot (32 images) · axe 3 = les canaux couleur (R,V,B)</span></pre>
+
+  <h3><span class="num">1.4</span> Les trois « multiplications » à ne pas confondre</h3>
+  <p>Le point qui fait trébucher tout le monde&nbsp;: plusieurs façons de « multiplier » des tableaux, aux effets radicalement différents.</p>
+  <h4>a) Élément par élément (<code>*</code>)</h4>
+  <pre>a * b          <span class="c"># [1,2,3] * [4,5,6] → [4,10,18]</span></pre>
+  <h4>b) Produit matriciel (<code>@</code> ou <code>np.dot</code>)</h4>
+  <p>L'opération reine. Combine lignes et colonnes. Règle d'or&nbsp;: <code>(m, <b>k</b>) @ (<b>k</b>, n) → (m, n)</code>&nbsp;— les dimensions intérieures doivent être égales.</p>
+  <pre>A = np.array([[<span class="s">1</span>,<span class="s">2</span>],[<span class="s">3</span>,<span class="s">4</span>]])   <span class="c"># (2,2)</span>
+x = np.array([<span class="s">1</span>,<span class="s">0</span>])           <span class="c"># (2,)</span>
+A @ x          <span class="o"># [1, 3]</span></pre>
+  <h4>c) La transposée (<code>.T</code>)</h4>
+  <pre>A.T            <span class="c"># (2,3) devient (3,2)</span></pre>
+
+  <h4>Le produit matriciel pas à pas</h4>
+  <p>La règle unique&nbsp;: <strong>chaque nombre du résultat est le produit scalaire d'une ligne de A avec le vecteur x</strong> — on multiplie terme à terme, puis on additionne.</p>
+  <div class="matrix-row">
+    <div><div class="mat-lbl">A <span class="dim-badge">(2, 2)</span></div><div class="mat tiny" style="grid-template-columns:repeat(2,auto)"><span>1</span><span>2</span><span>3</span><span>4</span></div></div>
+    <div><div class="mat-lbl">x <span class="dim-badge">(2,)</span></div><div class="mat tiny" style="grid-template-columns:auto"><span>1</span><span>0</span></div></div>
+  </div>
+  <div class="calc">
+    <div class="cl"><span class="lab">ligne 0 · x</span> = (1×<span class="hl">1</span>) + (2×<span class="hl">0</span>) = <b>1</b></div>
+    <div class="cl"><span class="lab">ligne 1 · x</span> = (3×<span class="hl">1</span>) + (4×<span class="hl">0</span>) = <b>3</b></div>
+    <div class="cres">A @ x = [ 1, 3 ]&nbsp;&nbsp;<span style="color:var(--ink-faint)">shape (2,)</span></div>
+  </div>
+  <div class="note intuition"><div class="lbl">L'intuition qui débloque tout</div><p>Ici <code>x = [1, 0]</code> est un <strong>sélecteur</strong>&nbsp;: le <code>1</code> garde la 1ʳᵉ colonne de A, le <code>0</code> efface la 2ᵉ. Donc <code>A @ [1,0]</code> = la <strong>1ʳᵉ colonne de A</strong> → <code>[1, 3]</code>, et <code>A @ [0,1]</code> = la 2ᵉ, <code>[2, 4]</code>. Plus largement, <strong>A transforme le vecteur x</strong> — exactement ce que fait une couche de neurones.</p></div>
+
+  <h4>Anime-le toi-même</h4>
+  <p>Le même mouvement, mais interactif&nbsp;: fais avancer les deux pointeurs et regarde la somme se construire, case après case. (Ici <code>A = [[2,1],[0,3]]</code> et <code>y = [1,4]</code>.)</p>
+  <div class="mviz">
+    <div class="eq">
+      <div class="blk"><div class="cap">A (2×2)</div><div class="vmat" id="mvA" style="grid-template-columns:repeat(2,auto)"></div></div>
+      <div class="op">@</div>
+      <div class="blk"><div class="cap">y</div><div class="vmat" id="mvY" style="grid-template-columns:auto"></div></div>
+      <div class="op">=</div>
+      <div class="blk"><div class="cap">résultat</div><div class="vmat" id="mvR" style="grid-template-columns:auto"></div></div>
+    </div>
+    <div class="vcalc"><div class="line" id="mvL1"></div><div class="line" id="mvL2"></div><div class="vsum" id="mvSum"></div></div>
+    <p class="vhint" id="mvHint"></p>
+    <div class="vctrl">
+      <button class="vbtn" id="mvNext" type="button">Étape suivante ▸</button>
+      <button class="vbtn ghost" id="mvAuto" type="button">▶ Auto</button>
+      <button class="vbtn ghost" id="mvReset" type="button" aria-label="Recommencer">↻</button>
+    </div>
+    <div class="vleg">
+      <span><i class="sw" style="background:var(--indigo-soft)"></i> ligne en cours</span>
+      <span><i class="sw" style="background:var(--amber)"></i> sous le pointeur</span>
+      <span><i class="sw" style="background:var(--teal-soft)"></i> résultat</span>
+    </div>
+  </div>
+
+  <h4>Matrice × matrice : même principe</h4>
+  <p>Le résultat en <code>(i, j)</code> = produit scalaire de la <strong>ligne i</strong> de la première par la <strong>colonne j</strong> de la seconde.</p>
+  <div class="matrix-row">
+    <div><div class="mat-lbl">A</div><div class="mat tiny" style="grid-template-columns:repeat(2,auto)"><span>1</span><span>2</span><span>3</span><span>4</span></div></div>
+    <div style="font-family:'IBM Plex Mono';color:var(--amber);font-size:18px">@</div>
+    <div><div class="mat-lbl">B</div><div class="mat tiny" style="grid-template-columns:repeat(2,auto)"><span>1</span><span>0</span><span>1</span><span>1</span></div></div>
+  </div>
+  <div class="calc">
+    <div class="cl"><span class="lab">(0,0)</span> l0·c0 = 1×1+2×1 = <b>3</b> &nbsp;·&nbsp; <span class="lab">(0,1)</span> l0·c1 = 1×0+2×1 = <b>2</b></div>
+    <div class="cl"><span class="lab">(1,0)</span> l1·c0 = 3×1+4×1 = <b>7</b> &nbsp;·&nbsp; <span class="lab">(1,1)</span> l1·c1 = 3×0+4×1 = <b>4</b></div>
+    <div class="cres">A @ B = [[3, 2], [7, 4]]</div>
+  </div>
+  <details><summary>Pourquoi les dimensions intérieures doivent être égales</summary><div class="d-body">Un produit scalaire n'a de sens qu'entre deux suites de <b>même longueur</b>. La ligne de A a autant d'éléments que A a de colonnes ; la colonne de B en a autant que B a de lignes. Pour les apparier&nbsp;: <code>colonnes de A = lignes de B</code>. D'où <code>(m,<b>k</b>) @ (<b>k</b>,n) → (m,n)</code>.</div></details>
+
+  <div class="exo">
+    <div class="exo-head">Exercice — calcul à la main</div>
+    <div class="exo-task">
+      <p>Sans exécuter de code, calcule <code>A @ y</code> puis <code>A @ z</code>&nbsp;:</p>
+      <pre>A = np.array([[<span class="s">2</span>, <span class="s">1</span>],
+              [<span class="s">0</span>, <span class="s">3</span>]])
+y = np.array([<span class="s">1</span>, <span class="s">1</span>])
+z = np.array([<span class="s">0</span>, <span class="s">2</span>])</pre>
+      <p>Puis&nbsp;: que renvoie <code>A @ [1, 0]</code>, et pourquoi&nbsp;?</p>
+    </div>
+    <button class="exo-btn" type="button">Afficher la solution</button>
+    <div class="exo-solution"><div class="sol-lbl">Solution</div>
+      <p><b>A @ y</b> — l0·y = 2×1+1×1 = <b>3</b> ; l1·y = 0×1+3×1 = <b>3</b> → <b>[3, 3]</b></p>
+      <p><b>A @ z</b> — l0·z = 2×0+1×2 = <b>2</b> ; l1·z = 0×0+3×2 = <b>6</b> → <b>[2, 6]</b></p>
+      <p><b>A @ [1, 0]</b> sélectionne la 1ʳᵉ colonne → <b>[2, 0]</b>.</p>
+    </div>
+  </div>
+
+  <h3><span class="num">1.5</span> Le broadcasting : la magie (et le piège)</h3>
+  <p>NumPy combine des tableaux de formes <em>différentes</em> en « étirant » le plus petit. Pratique — et source de bugs silencieux.</p>
+  <pre>images = np.random.rand(<span class="s">32</span>, <span class="s">128</span>, <span class="s">128</span>, <span class="s">3</span>)  <span class="c"># un lot</span>
+moyenne = np.array([<span class="s">0.4</span>, <span class="s">0.5</span>, <span class="s">0.6</span>])       <span class="c"># (3,) une moyenne par canal</span>
+images - moyenne   <span class="c"># NumPy étire (3,) sur tout le lot ✓</span></pre>
+  <details><summary>La règle en une phrase</summary><div class="d-body">On aligne les formes <strong>par la droite</strong>. Deux dimensions sont compatibles si elles sont égales, ou si l'une vaut 1. Ex&nbsp;: <code>(32,128,128,3)</code> et <code>(3,)</code> → OK ; <code>(32,3)</code> et <code>(4,)</code> → erreur.</div></details>
+
+  <div class="exo">
+    <div class="exo-head">Exercice — prédire la forme</div>
+    <div class="exo-task"><p>Donne la forme du résultat, ou « erreur »&nbsp;:</p>
+      <pre>a)  np.zeros((<span class="s">8</span>, <span class="s">3</span>)) + np.ones((<span class="s">3</span>,))
+b)  A @ v      <span class="c"># A (10, 4), v (4,)</span>
+c)  M.T        <span class="c"># M (2, 5)</span>
+d)  np.ones((<span class="s">32</span>, <span class="s">3</span>)) * np.ones((<span class="s">4</span>,))</pre></div>
+    <button class="exo-btn" type="button">Afficher la solution</button>
+    <div class="exo-solution"><div class="sol-lbl">Solution</div>
+      <p><b>a) (8, 3)</b> — le <code>(3,)</code> est diffusé sur les 8 lignes.</p>
+      <p><b>b) (10,)</b> — <code>(10,<b>4</b>) @ (<b>4</b>,) → (10,)</code>.</p>
+      <p><b>c) (5, 2)</b> — la transposée échange les axes.</p>
+      <p><b>d) erreur</b> — alignés par la droite, <code>3</code> et <code>4</code> sont incompatibles.</p>
+    </div>
+  </div>
+
+  <h3><span class="num">1.6</span> Le réseau de neurones, vu de l'intérieur</h3>
+  <p>C'est le cœur de la formation. En une phrase&nbsp;: un réseau prend des <strong>entrées</strong>, les combine avec des <strong>poids</strong> ajustables pour produire une <strong>sortie</strong>, puis corrige ces poids grâce à un <strong>retour</strong> sur ses erreurs. Décortiquons chacune de ces idées avec un schéma. La vue reste simple&nbsp;; déplie les « Approfondir » quand tu veux creuser.</p>
+
+  <h4>1 · Un neurone : entrées → poids → sortie</h4>
+  <figure class="diagram">
+    <div class="dtitle">Un neurone artificiel</div>
+    <svg viewBox="0 0 560 250" role="img" aria-label="Schéma d'un neurone : trois entrées pondérées, une somme, une activation, une sortie">
+      <defs><marker id="ahN" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path class="nn-head" d="M0,0 L9,4.5 L0,9 z"/></marker></defs>
+      <line class="nn-edge hot" x1="74" y1="50" x2="212" y2="112"/>
+      <line class="nn-edge hot" x1="74" y1="125" x2="209" y2="125"/>
+      <line class="nn-edge hot" x1="74" y1="200" x2="212" y2="138"/>
+      <text class="nn-wlbl" x="140" y="70">w₁</text>
+      <text class="nn-wlbl" x="140" y="116">w₂</text>
+      <text class="nn-wlbl" x="140" y="182">w₃</text>
+      <circle class="nn-node in" cx="54" cy="50" r="20"/><text class="nn-txt" x="54" y="50">x₁</text>
+      <circle class="nn-node in" cx="54" cy="125" r="20"/><text class="nn-txt" x="54" y="125">x₂</text>
+      <circle class="nn-node in" cx="54" cy="200" r="20"/><text class="nn-txt" x="54" y="200">x₃</text>
+      <circle class="nn-node hid" cx="255" cy="125" r="46"/>
+      <text class="nn-big" x="255" y="118">Σ</text><text class="nn-sub" x="255" y="146">+ biais b</text>
+      <line class="nn-edge hot" x1="301" y1="125" x2="368" y2="125"/>
+      <circle class="nn-node hid" cx="400" cy="125" r="30"/><text class="nn-txt" x="400" y="125">f</text>
+      <text class="nn-sub" x="400" y="78">activation</text>
+      <path class="nn-flow" d="M432 125 L505 125" marker-end="url(#ahN)"/>
+      <text class="nn-txt" x="524" y="125">ŷ</text><text class="nn-sub" x="520" y="148">sortie</text>
+    </svg>
+    <figcaption>Chaque entrée est multipliée par son <b>poids</b>, on additionne le tout (+ un biais), puis une <b>fonction d'activation</b> produit la sortie&nbsp;: <code>ŷ = f(w₁x₁ + w₂x₂ + w₃x₃ + b)</code>.</figcaption>
+  </figure>
+  <p>Les <span class="term">poids</span> sont les seuls nombres que le réseau «&nbsp;apprend&nbsp;». Un poids élevé = cette entrée compte beaucoup&nbsp;; un poids proche de zéro = elle est ignorée. Tout l'apprentissage consiste à trouver les bons poids.</p>
+  <details><summary>Approfondir — à quoi sert la fonction d'activation ?</summary><div class="d-body">Sans elle, empiler des neurones ne servirait à rien&nbsp;: une somme de sommes reste une simple droite, incapable de modéliser des relations complexes. L'activation introduit de la <b>non-linéarité</b>. La plus courante est <b>ReLU</b> (<code>max(0, x)</code>)&nbsp;: simple, rapide, et elle évite que le signal ne s'éteigne dans les réseaux profonds. On trouve aussi <b>sigmoïde</b> (écrase entre 0 et 1, utile pour une probabilité) et <b>tanh</b> (entre −1 et 1).</div></details>
+  <details><summary>Approfondir — pourquoi un biais ?</summary><div class="d-body">Le biais <code>b</code> décale le seuil de déclenchement du neurone. Sans lui, la frontière de décision serait forcée de passer par l'origine (0,0), ce qui limite fortement ce que le neurone peut représenter. C'est l'équivalent de l'ordonnée à l'origine <code>b</code> dans <code>y = ax + b</code>.</div></details>
+
+  <h4>2 · Beaucoup de neurones : les couches</h4>
+  <figure class="diagram">
+    <div class="dtitle">Un réseau à une couche cachée</div>
+    <svg viewBox="0 0 560 310" role="img" aria-label="Réseau de neurones : couche d'entrée, couche cachée, couche de sortie, entièrement connectées">
+      <g>
+        <line class="nn-edge" x1="70" y1="90" x2="280" y2="60"/><line class="nn-edge" x1="70" y1="90" x2="280" y2="130"/><line class="nn-edge" x1="70" y1="90" x2="280" y2="200"/><line class="nn-edge" x1="70" y1="90" x2="280" y2="270"/>
+        <line class="nn-edge" x1="70" y1="160" x2="280" y2="60"/><line class="nn-edge" x1="70" y1="160" x2="280" y2="130"/><line class="nn-edge" x1="70" y1="160" x2="280" y2="200"/><line class="nn-edge" x1="70" y1="160" x2="280" y2="270"/>
+        <line class="nn-edge" x1="70" y1="230" x2="280" y2="60"/><line class="nn-edge" x1="70" y1="230" x2="280" y2="130"/><line class="nn-edge" x1="70" y1="230" x2="280" y2="200"/><line class="nn-edge" x1="70" y1="230" x2="280" y2="270"/>
+        <line class="nn-edge" x1="280" y1="60" x2="490" y2="120"/><line class="nn-edge" x1="280" y1="60" x2="490" y2="200"/>
+        <line class="nn-edge" x1="280" y1="130" x2="490" y2="120"/><line class="nn-edge" x1="280" y1="130" x2="490" y2="200"/>
+        <line class="nn-edge" x1="280" y1="200" x2="490" y2="120"/><line class="nn-edge" x1="280" y1="200" x2="490" y2="200"/>
+        <line class="nn-edge" x1="280" y1="270" x2="490" y2="120"/><line class="nn-edge" x1="280" y1="270" x2="490" y2="200"/>
+      </g>
+      <circle class="nn-node in" cx="70" cy="90" r="19"/><text class="nn-txt" x="70" y="90">x₁</text>
+      <circle class="nn-node in" cx="70" cy="160" r="19"/><text class="nn-txt" x="70" y="160">x₂</text>
+      <circle class="nn-node in" cx="70" cy="230" r="19"/><text class="nn-txt" x="70" y="230">x₃</text>
+      <circle class="nn-node hid" cx="280" cy="60" r="19"/><circle class="nn-node hid" cx="280" cy="130" r="19"/><circle class="nn-node hid" cx="280" cy="200" r="19"/><circle class="nn-node hid" cx="280" cy="270" r="19"/>
+      <circle class="nn-node out" cx="490" cy="120" r="19"/><text class="nn-txt" x="490" y="120">ŷ₁</text>
+      <circle class="nn-node out" cx="490" cy="200" r="19"/><text class="nn-txt" x="490" y="200">ŷ₂</text>
+      <text class="nn-sub" x="70" y="298">entrées</text>
+      <text class="nn-sub" x="280" y="298">couche cachée</text>
+      <text class="nn-sub" x="490" y="298">sorties</text>
+    </svg>
+    <figcaption>Chaque <b>trait</b> est un poids&nbsp;; chaque <b>couche</b> transforme le vecteur reçu en un nouveau vecteur. Empiler des couches permet de capturer des motifs de plus en plus abstraits.</figcaption>
+  </figure>
+  <p>C'est ici que la Partie 1 se referme&nbsp;: comme chaque couche multiplie le vecteur d'entrée par une matrice de poids, <strong>un réseau n'est qu'une suite de produits matriciels</strong> séparés par des activations. Voilà pourquoi <code>@</code> et les <em>shapes</em> sont si centraux.</p>
+  <details><summary>Approfondir — une couche = une multiplication de matrices</summary><div class="d-body">Pour une couche&nbsp;: <code>h = f(W · x + b)</code>. Si l'entrée a 3 valeurs et la couche 4 neurones, alors <code>W</code> a la forme <code>(4, 3)</code>, <code>x</code> est <code>(3,)</code>, et <code>W·x</code> donne <code>(4,)</code> — une sortie par neurone. On applique ensuite <code>f</code> à chaque valeur. La couche suivante reprend ce <code>(4,)</code> comme entrée, avec sa propre matrice. Entraîner le réseau = ajuster tous les nombres de tous ces <code>W</code> et <code>b</code>.</div></details>
+
+  <h4>3 · Comment il apprend : la boucle de feedback</h4>
+  <figure class="diagram">
+    <div class="dtitle">La boucle d'entraînement</div>
+    <svg viewBox="0 0 580 280" role="img" aria-label="Boucle d'apprentissage : passe avant, calcul de la perte, rétropropagation, mise à jour des poids">
+      <defs><marker id="ahF" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path class="nn-head" d="M0,0 L9,4.5 L0,9 z"/></marker></defs>
+      <rect class="fb-box" x="16" y="40" width="100" height="48" rx="10"/><text class="fb-txt" x="66" y="58">Entrées</text><text class="fb-sub" x="66" y="74">données X</text>
+      <rect class="fb-box net" x="150" y="40" width="140" height="48" rx="10"/><text class="fb-txt" x="220" y="58">Réseau</text><text class="fb-sub" x="220" y="74">passe avant</text>
+      <rect class="fb-box" x="320" y="40" width="110" height="48" rx="10"/><text class="fb-txt" x="375" y="58">Prédiction</text><text class="fb-sub" x="375" y="74">ŷ</text>
+      <rect class="fb-box loss" x="460" y="40" width="104" height="48" rx="10"/><text class="fb-txt" x="512" y="56">Perte</text><text class="fb-sub" x="512" y="72">écart avec y</text>
+      <rect class="fb-box" x="320" y="190" width="244" height="48" rx="10"/><text class="fb-txt" x="442" y="208">Rétropropagation</text><text class="fb-sub" x="442" y="224">gradient de chaque poids</text>
+      <rect class="fb-box upd" x="110" y="190" width="180" height="48" rx="10"/><text class="fb-txt" x="200" y="208">Mise à jour des poids</text><text class="fb-sub" x="200" y="224">poids − lr × gradient</text>
+      <path class="nn-flow" d="M116 64 L146 64" marker-end="url(#ahF)"/>
+      <path class="nn-flow" d="M290 64 L316 64" marker-end="url(#ahF)"/>
+      <path class="nn-flow" d="M430 64 L456 64" marker-end="url(#ahF)"/>
+      <path class="nn-flow" d="M512 88 L512 190" marker-end="url(#ahF)"/>
+      <path class="nn-flow" d="M320 214 L294 214" marker-end="url(#ahF)"/>
+      <path class="nn-flow" d="M200 190 L200 92" marker-end="url(#ahF)"/>
+      <text class="fb-loop" x="240" y="160">↻ répété des milliers de fois</text>
+    </svg>
+    <figcaption>Le réseau prédit, on mesure l'<b>erreur</b>, on calcule dans quel sens bouger chaque poids (<b>rétropropagation</b>), on ajuste, et on recommence — jusqu'à ce que l'erreur soit basse.</figcaption>
+  </figure>
+  <div class="note intuition"><div class="lbl">Le gradient, en image</div><p>Tu es sur une colline dans le brouillard et tu veux descendre. Tu sens la <strong>pente</strong> et fais un pas vers le bas. Tu répètes. C'est la <span class="term">descente de gradient</span>&nbsp;: le <strong>gradient</strong> est la pente de la perte, et à chaque pas le modèle ajuste ses poids pour faire baisser l'erreur. La taille du pas = le <span class="term">taux d'apprentissage</span> (learning rate).</p></div>
+  <div class="code-cap">La boucle d'entraînement, en pseudo-code</div>
+  <pre><span class="k">for</span> etape <span class="k">in</span> <span class="k">range</span>(<span class="s">1000</span>):
+    prediction = modele(X)                  <span class="c"># passe avant : entrées → sortie</span>
+    perte      = mse(prediction, y)          <span class="c"># écart avec la cible</span>
+    gradients  = perte.backward()            <span class="c"># rétropropagation : pente de chaque poids</span>
+    poids      = poids - <span class="s">0.01</span> * gradients    <span class="c"># un pas vers le bas (0.01 = learning rate)</span></pre>
+  <details><summary>Approfondir — la rétropropagation, concrètement</summary><div class="d-body">On veut savoir&nbsp;: «&nbsp;si je bougeais <em>ce</em> poids, de combien la perte changerait-elle&nbsp;?&nbsp;» La réponse, c'est sa dérivée (son gradient). La <b>rétropropagation</b> calcule l'erreur à la sortie, puis la propage <b>à rebours</b>, couche par couche, en appliquant la règle de dérivation en chaîne. Chaque poids reçoit ainsi son gradient. On fait ensuite un pas de descente de gradient. Les frameworks (PyTorch, TensorFlow) font ce calcul automatiquement&nbsp;: c'est l'<i>autograd</i>. Tu n'auras quasiment jamais à le coder à la main.</div></details>
+
+  <h3><span class="num">1.7</span> L'écosystème : qui fait quoi</h3>
+  <div class="libs">
+    <div class="lib"><div class="l-name">NumPy</div><div class="l-role">socle numérique</div><div class="l-desc">Les tableaux (ndarray) et l'algèbre linéaire. La base de tout.</div></div>
+    <div class="lib"><div class="l-name">pandas</div><div class="l-role">données tabulaires</div><div class="l-desc">Charger, nettoyer, explorer (CSV, Excel). Le <code>DataFrame</code> = un tableur programmable.</div></div>
+    <div class="lib"><div class="l-name">Matplotlib / seaborn</div><div class="l-role">visualisation</div><div class="l-desc">Tracer courbes, images, distributions. « Voir » ce que fait un modèle.</div></div>
+    <div class="lib"><div class="l-name">scikit-learn</div><div class="l-role">ML classique</div><div class="l-desc">Régressions, arbres, clustering, split train/test, métriques.</div></div>
+    <div class="lib"><div class="l-name">PyTorch</div><div class="l-role">deep learning</div><div class="l-desc">Le framework le plus répandu pour construire des réseaux.</div></div>
+    <div class="lib"><div class="l-name">TensorFlow / Keras</div><div class="l-role">deep learning</div><div class="l-desc">L'alternative de Google. Keras = la surface haut niveau, lisible.</div></div>
+    <div class="lib"><div class="l-name">Hugging Face</div><div class="l-role">modèles pré-entraînés</div><div class="l-desc"><code>transformers</code>&nbsp;: réutiliser des modèles déjà entraînés en quelques lignes.</div></div>
+    <div class="lib"><div class="l-name">OpenCV / Pillow</div><div class="l-role">images</div><div class="l-desc">Lire, redimensionner, transformer des images avant un modèle de vision.</div></div>
+  </div>
+
+  <div class="quiz" data-quiz>
+    <div class="quiz-head"><span class="dot"></span> Quiz · Partie 1</div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q1.</span> En convention channels-last (NumPy/TensorFlow), un lot de 16 images couleur 64×64 a la forme…</div>
+      <button class="opt" data-correct="false">(16, 3, 64, 64)<span class="mark"></span></button>
+      <button class="opt" data-correct="true">(16, 64, 64, 3)<span class="mark"></span></button>
+      <button class="opt" data-correct="false">(64, 64, 3, 16)<span class="mark"></span></button>
+      <div class="explain">Lot en tête (16), puis hauteur×largeur (64×64), puis 3 canaux → <b>(16, 64, 64, 3)</b>. La forme <code>(16, 3, 64, 64)</code> est la convention <i>channels-first</i> de PyTorch (NCHW)&nbsp;: correcte ailleurs, mais pas ici.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q2.</span> Forme du résultat de <code>(3, 4) @ (4, 2)</code>&nbsp;?</div>
+      <button class="opt" data-correct="false">(4, 4)<span class="mark"></span></button>
+      <button class="opt" data-correct="false">erreur : dimensions incompatibles<span class="mark"></span></button>
+      <button class="opt" data-correct="true">(3, 2)<span class="mark"></span></button>
+      <div class="explain"><code>(3,<b>4</b>) @ (<b>4</b>,2)</code>&nbsp;: le <b>4</b> intérieur concorde et disparaît, restent les extérieurs → <b>(3, 2)</b>. Les formes sont bien compatibles.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q3.</span> A et B sont deux matrices <code>(2, 2)</code>. Que dire de <code>A * B</code> et <code>A @ B</code>&nbsp;?</div>
+      <button class="opt" data-correct="false">identiques, car les matrices sont carrées<span class="mark"></span></button>
+      <button class="opt" data-correct="false"><code>*</code> est invalide entre deux matrices 2D<span class="mark"></span></button>
+      <button class="opt" data-correct="true">différents&nbsp;: <code>*</code> multiplie terme à terme, <code>@</code> fait le produit matriciel<span class="mark"></span></button>
+      <div class="explain">Même sur des matrices carrées, les deux diffèrent. <code>*</code> multiplie case à case ; <code>@</code> combine lignes et colonnes. C'est le piège n°1.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q4.</span> Avec <code>A = [[1,2],[3,4]]</code>, combien vaut <code>A @ [2, 1]</code>&nbsp;?</div>
+      <button class="opt" data-correct="true">[4, 10]<span class="mark"></span></button>
+      <button class="opt" data-correct="false">[10, 4]<span class="mark"></span></button>
+      <button class="opt" data-correct="false">[2, 8]<span class="mark"></span></button>
+      <div class="explain">l0·x = 1×2+2×1 = <b>4</b> ; l1·x = 3×2+4×1 = <b>10</b> → <b>[4, 10]</b>. La réponse <code>[10, 4]</code> correspondrait à <code>A.T @ x</code> (erreur de transposée).</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q5.</span> Parmi ces paires, laquelle est <em>incompatible</em> pour le broadcasting&nbsp;?</div>
+      <button class="opt" data-correct="false">(8, 1) et (8, 5)<span class="mark"></span></button>
+      <button class="opt" data-correct="true">(32, 3) et (4,)<span class="mark"></span></button>
+      <button class="opt" data-correct="false">(10, 3) et (3,)<span class="mark"></span></button>
+      <div class="explain">Alignées par la droite&nbsp;: <code>3</code> vs <code>4</code> ne sont ni égales ni à 1 → incompatibles. En revanche <code>(8,1)&amp;(8,5)</code> (le 1 s'étire) et <code>(10,3)&amp;(3,)</code> passent.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q6.</span> Pendant l'entraînement, le <em>gradient</em> d'un poids désigne…</div>
+      <button class="opt" data-correct="false">la valeur courante de la fonction de perte<span class="mark"></span></button>
+      <button class="opt" data-correct="true">la pente de la perte par rapport à ce poids, qui dit dans quel sens l'ajuster<span class="mark"></span></button>
+      <button class="opt" data-correct="false">l'écart entre la prédiction et l'étiquette pour un exemple<span class="mark"></span></button>
+      <div class="explain">Le gradient est une <b>pente</b> (une dérivée), pas la perte elle-même (option 1) ni l'erreur d'un exemple (option 3). Il indique comment bouger le poids pour faire baisser la perte.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PARTIE 2 ============ -->
+<section id="p2top" style="padding-bottom:0">
+  <div class="part-head">
+    <span class="part-tag">Partie 2 — Suivre le cours</span>
+    <h2>Les concepts, semaine par semaine</h2>
+    <p>Pour chaque bloc du programme ifage&nbsp;: l'objectif, les concepts, un exemple de code, un glossaire, un exercice et un quiz à valider. Reviens ici après chaque séance.</p>
+  </div>
+</section>
+
+<!-- S1-2 -->
+<section id="w12">
+  <div class="week"><div class="wtag">Semaines 1–2</div><h3>Introduction à l'IA</h3></div>
+  <p><strong>Objectif&nbsp;:</strong> installer le vocabulaire commun et distinguer les familles d'apprentissage.</p>
+  <h4>Les 3 grands types d'apprentissage</h4>
+  <ul>
+    <li><span class="term">Supervisé</span> — exemples <em>étiquetés</em> (photo → « chat »). ~80&nbsp;% de l'IA appliquée.</li>
+    <li><span class="term">Non supervisé</span> — pas d'étiquettes&nbsp;; le modèle découvre des structures (clustering).</li>
+    <li><span class="term">Par renforcement</span> — un agent apprend par récompenses (semaine 5).</li>
+  </ul>
+  <h4>Le vocabulaire fondateur</h4>
+  <p>Un <span class="term">modèle</span> reçoit des <span class="term">features</span> (entrées) et produit une prédiction, comparée à l'<span class="term">étiquette</span> attendue. Deux phases&nbsp;: l'<span class="term">entraînement</span> puis l'<span class="term">inférence</span>. On sépare toujours <span class="term">train</span> et <span class="term">test</span>&nbsp;; un modèle excellent en train mais faible en test a <span class="term">surappris</span> (overfitting).</p>
+  <div class="code-cap">Un modèle supervisé complet avec scikit-learn</div>
+  <pre><span class="k">from</span> sklearn.model_selection <span class="k">import</span> train_test_split
+<span class="k">from</span> sklearn.linear_model <span class="k">import</span> LinearRegression
+
+<span class="c"># X = features (surface, pièces, ...) · y = label (prix)</span>
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=<span class="s">0.2</span>)
+
+modele = LinearRegression()
+modele.fit(X_tr, y_tr)          <span class="c"># entraînement</span>
+modele.score(X_te, y_te)        <span class="c"># évaluation sur des données JAMAIS vues</span></pre>
+  <div class="note ex"><div class="lbl">Exemple</div><p>Prédire le prix d'un appartement. <strong>Features</strong>&nbsp;: surface, pièces, quartier. <strong>Label</strong>&nbsp;: prix de ventes passées. Le modèle apprend le lien, puis estime un bien inédit.</p></div>
+  <dl class="gloss">
+    <dt>Feature / Label</dt><dd>Variable d'entrée / réponse correcte fournie.</dd>
+    <dt>Train / test split</dt><dd>Découpage pour évaluer honnêtement la généralisation.</dd>
+    <dt>Overfitting</dt><dd>Le modèle mémorise au lieu de généraliser.</dd>
+  </dl>
+  <details><summary>Approfondir — 4 leviers contre le surapprentissage</summary><div class="d-body"><b>1. Plus de données</b> — le remède le plus efficace&nbsp;: plus d'exemples, plus dur de tricher par mémorisation. <b>2. Régularisation</b> — pénaliser les poids trop grands (L2), ou <i>dropout</i> (éteindre au hasard des neurones à l'entraînement pour forcer la robustesse). <b>3. Simplifier</b> le modèle (moins de couches/neurones). <b>4. Early stopping</b> — arrêter l'entraînement dès que l'erreur sur un jeu de <i>validation</i> remonte.</div></details>
+
+  <div class="exo">
+    <div class="exo-head">Exercice — cadrer un problème</div>
+    <div class="exo-task"><p>On veut détecter si un e-mail est un <em>spam</em>. a) deux <b>features</b> plausibles ? b) le <b>label</b> ? c) le <b>type d'apprentissage</b> ?</p></div>
+    <button class="exo-btn" type="button">Afficher la solution</button>
+    <div class="exo-solution"><div class="sol-lbl">Solution</div>
+      <p><b>a)</b> nombre de liens, présence de mots-clés, expéditeur inconnu, proportion de majuscules.</p>
+      <p><b>b)</b> l'étiquette binaire <code>spam</code>/<code>non-spam</code> d'un historique déjà classé.</p>
+      <p><b>c)</b> <b>supervisé</b> (classification) — on a des exemples étiquetés.</p>
+    </div>
+  </div>
+  <div class="quiz" data-quiz>
+    <div class="quiz-head"><span class="dot"></span> Quiz · Semaines 1–2</div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q1.</span> Ce qui distingue <em>fondamentalement</em> le supervisé du non supervisé&nbsp;:</div>
+      <button class="opt" data-correct="false">le supervisé utilise des réseaux, l'autre non<span class="mark"></span></button>
+      <button class="opt" data-correct="true">la présence ou non d'étiquettes dans les données<span class="mark"></span></button>
+      <button class="opt" data-correct="false">la taille du jeu de données requis<span class="mark"></span></button>
+      <div class="explain">Le critère est l'<b>étiquette</b>&nbsp;: présente → supervisé, absente → non supervisé. Les deux peuvent utiliser des réseaux et des données de toute taille.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q2.</span> Un modèle fait 99&nbsp;% en entraînement et 62&nbsp;% en test. Diagnostic&nbsp;?</div>
+      <button class="opt" data-correct="false">un excellent modèle&nbsp;: 99&nbsp;% prouve qu'il a bien appris<span class="mark"></span></button>
+      <button class="opt" data-correct="true">surapprentissage&nbsp;: il a mémorisé au lieu de généraliser<span class="mark"></span></button>
+      <button class="opt" data-correct="false">sous-apprentissage&nbsp;: il est trop simple<span class="mark"></span></button>
+      <div class="explain">Le fossé train ≫ test est la signature de l'<b>overfitting</b>. Le sous-apprentissage donnerait des scores faibles <i>partout</i>, y compris en entraînement.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q3.</span> Pour prédire un prix, la « surface en m² » est…</div>
+      <button class="opt" data-correct="true">une caractéristique (feature), une entrée du modèle<span class="mark"></span></button>
+      <button class="opt" data-correct="false">un paramètre appris par le modèle<span class="mark"></span></button>
+      <button class="opt" data-correct="false">l'étiquette à prédire<span class="mark"></span></button>
+      <div class="explain">C'est une <b>entrée</b> → feature. Les <i>paramètres appris</i> sont les poids internes ; l'<i>étiquette</i> ici serait le prix.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q4.</span> À quoi sert de garder un jeu de test à part&nbsp;?</div>
+      <button class="opt" data-correct="false">fournir plus d'exemples pour mieux entraîner<span class="mark"></span></button>
+      <button class="opt" data-correct="false">accélérer la convergence de l'entraînement<span class="mark"></span></button>
+      <button class="opt" data-correct="true">estimer la performance sur des données jamais vues<span class="mark"></span></button>
+      <div class="explain">Si on entraînait <i>sur</i> le test, le score serait trompeur. Le test mesure la vraie capacité à <b>généraliser</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- S3-4 -->
+<section id="w34">
+  <div class="week"><div class="wtag">Semaines 3–4</div><h3>Vision par ordinateur</h3></div>
+  <p><strong>Objectif&nbsp;:</strong> faire « voir » une machine, et découvrir l'astuce qui rend l'IA accessible&nbsp;: l'apprentissage par transfert.</p>
+  <h4>Une image = un tenseur</h4>
+  <p>Une image couleur est un tenseur <code>(H, L, 3)</code> ; chaque pixel = 3 nombres (R, V, B). Un <span class="term">CNN</span> fait glisser de petits <span class="term">filtres</span> (la <span class="term">convolution</span>)&nbsp;: les premières couches captent bords et textures, les suivantes composent formes puis objets.</p>
+  <div class="note intuition"><div class="lbl">L'astuce reine</div><p>Entraîner de zéro exige des millions d'images. Le <span class="term">transfert</span> réutilise un <span class="term">modèle pré-entraîné</span> (ex. ResNet) qui « sait déjà voir » et ne réentraîne que la fin&nbsp;: d'excellents résultats avec quelques centaines d'images.</p></div>
+  <div class="code-cap">Apprentissage par transfert avec Keras</div>
+  <pre><span class="k">from</span> tensorflow.keras.applications <span class="k">import</span> ResNet50
+<span class="k">from</span> tensorflow.keras <span class="k">import</span> layers, Model
+
+base = ResNet50(weights=<span class="s">"imagenet"</span>, include_top=<span class="k">False</span>)  <span class="c"># modèle pré-entraîné</span>
+base.trainable = <span class="k">False</span>                               <span class="c"># on gèle ce qu'il a appris</span>
+
+x = layers.GlobalAveragePooling2D()(base.output)
+sortie = layers.Dense(<span class="s">3</span>, activation=<span class="s">"softmax"</span>)(x)      <span class="c"># 3 classes = NOTRE problème</span>
+modele = Model(base.input, sortie)                    <span class="c"># on ne réentraîne que la fin</span></pre>
+  <dl class="gloss">
+    <dt>Convolution / CNN</dt><dd>Filtre glissant détectant un motif local / réseau spécialisé images.</dd>
+    <dt>Modèle pré-entraîné</dt><dd>Réseau déjà entraîné sur d'immenses données, réutilisable.</dd>
+    <dt>Fine-tuning</dt><dd>Réajuster finement un modèle pré-entraîné sur ses données.</dd>
+  </dl>
+  <details><summary>Approfondir — pourquoi un CNN plutôt qu'un réseau dense sur une image ?</summary><div class="d-body">Un réseau <i>dense</i> relierait chaque pixel à chaque neurone&nbsp;: pour une image 256×256×3, cela ferait des centaines de milliers de poids <b>par neurone</b> — ingérable. Le CNN fait glisser le <b>même petit filtre</b> sur toute l'image (partage de poids)&nbsp;: très peu de paramètres. Et il détecte un motif <b>où qu'il se trouve</b> dans l'image (invariance par translation)&nbsp;: un œil de chat reste un œil de chat, en haut comme en bas.</div></details>
+
+  <div class="exo">
+    <div class="exo-head">Exercice — choisir sa stratégie</div>
+    <div class="exo-task"><p>Tu as <b>300 photos</b> réparties en 3 catégories de fleurs. En une phrase&nbsp;: quelle stratégie, et quelle partie du modèle modifies-tu&nbsp;?</p></div>
+    <button class="exo-btn" type="button">Afficher la solution</button>
+    <div class="exo-solution"><div class="sol-lbl">Solution</div>
+      <p><b>Transfert</b>&nbsp;: partir d'un modèle pré-entraîné, <b>remplacer la dernière couche</b> par une couche à 3 sorties, puis fine-tuner. 300 images seraient trop peu pour partir de zéro, mais suffisent pour réajuster un modèle qui sait déjà voir.</p>
+    </div>
+  </div>
+  <div class="quiz" data-quiz>
+    <div class="quiz-head"><span class="dot"></span> Quiz · Semaines 3–4</div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q1.</span> Pourquoi le transfert marche-t-il avec peu d'images&nbsp;?</div>
+      <button class="opt" data-correct="false">il augmente automatiquement le nombre d'images d'entraînement<span class="mark"></span></button>
+      <button class="opt" data-correct="false">il permet de se passer totalement d'étiquettes<span class="mark"></span></button>
+      <button class="opt" data-correct="true">le modèle pré-entraîné sait déjà détecter les motifs&nbsp;; on ne réajuste que la fin<span class="mark"></span></button>
+      <div class="explain">On réutilise des couches qui savent déjà voir bords/formes. Il ne « crée » pas d'images (option 1) et reste supervisé&nbsp;: il faut des étiquettes (option 2).</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q2.</span> Dans un CNN, que fait concrètement une convolution&nbsp;?</div>
+      <button class="opt" data-correct="true">fait glisser un petit filtre sur l'image pour repérer un motif local<span class="mark"></span></button>
+      <button class="opt" data-correct="false">redimensionne l'image à une taille fixe<span class="mark"></span></button>
+      <button class="opt" data-correct="false">convertit l'image en niveaux de gris<span class="mark"></span></button>
+      <div class="explain">Le filtre balaie l'image et réagit à un motif (bord, texture). Redimensionner ou passer en gris sont d'autres opérations, pas la convolution.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q3.</span> En convention channels-last, une image couleur 256×256 est un tenseur…</div>
+      <button class="opt" data-correct="false">(3, 256, 256)<span class="mark"></span></button>
+      <button class="opt" data-correct="true">(256, 256, 3)<span class="mark"></span></button>
+      <button class="opt" data-correct="false">(256, 256)<span class="mark"></span></button>
+      <div class="explain">H×L×<b>3 canaux</b>. <code>(3,256,256)</code> est la convention channels-first (PyTorch) ; <code>(256,256)</code> serait une image en niveaux de gris.</div>
+    </div>
+  </div>
+</section>
+
+<!-- S5 -->
+<section id="w5">
+  <div class="week"><div class="wtag">Semaine 5</div><h3>Apprentissage par renforcement</h3></div>
+  <p><strong>Objectif&nbsp;:</strong> un paradigme sans « bonne réponse » donnée&nbsp;: un agent apprend par essais, erreurs et <strong>récompenses</strong>.</p>
+  <h4>La boucle agent ↔ environnement</h4>
+  <p>Un <span class="term">agent</span> observe un <span class="term">état</span>, choisit une <span class="term">action</span>, reçoit une <span class="term">récompense</span> et un nouvel état. Il cherche la <span class="term">politique</span> qui maximise la récompense cumulée. Le <span class="term">Q-learning</span> estime, pour chaque (état, action), la récompense future attendue&nbsp;; quand les états sont trop nombreux, le <span class="term">DQN</span> remplace la table par un réseau de neurones.</p>
+  <div class="code-cap">La mise à jour au cœur du Q-learning (équation de Bellman)</div>
+  <pre>ancien = Q[etat, action]
+futur  = max(Q[nouvel_etat])                         <span class="c"># meilleure valeur atteignable ensuite</span>
+Q[etat, action] = ancien + alpha * (recompense + gamma * futur - ancien)
+<span class="c">#                          ^taux            ^gain immédiat  ^escompte du futur</span></pre>
+  <div class="note ex"><div class="lbl">Exemple</div><p>Un agent apprend à jouer à Pong. <strong>État</strong>&nbsp;: positions balle/raquettes. <strong>Actions</strong>&nbsp;: monter/descendre. <strong>Récompense</strong>&nbsp;: +1 s'il marque, −1 sinon. Après des milliers de parties, il joue très bien — sans qu'on lui ait dit « comment ».</p></div>
+  <dl class="gloss">
+    <dt>Agent / Environnement</dt><dd>Le décideur, et le monde avec lequel il interagit.</dd>
+    <dt>Politique</dt><dd>La stratégie&nbsp;: quelle action dans quel état.</dd>
+    <dt>DQN</dt><dd>Q-learning où un réseau approxime les valeurs Q.</dd>
+  </dl>
+  <div class="exo">
+    <div class="exo-head">Exercice — modéliser un problème</div>
+    <div class="exo-task"><p>Un robot aspirateur apprend à nettoyer par renforcement. Définis&nbsp;: a) l'<b>état</b>, b) les <b>actions</b>, c) un schéma de <b>récompense</b>.</p></div>
+    <button class="exo-btn" type="button">Afficher la solution</button>
+    <div class="exo-solution"><div class="sol-lbl">Solution (une possibilité)</div>
+      <p><b>a)</b> position + carte des zones sales/propres + obstacles.</p>
+      <p><b>b)</b> avancer, tourner, aspirer.</p>
+      <p><b>c)</b> <code>+1</code> par zone nettoyée, <code>−1</code> par collision, <code>−0,01</code> par pas (pour l'efficacité). Le choix des récompenses <b>façonne</b> tout le comportement.</p>
+    </div>
+  </div>
+  <div class="quiz" data-quiz>
+    <div class="quiz-head"><span class="dot"></span> Quiz · Semaine 5</div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q1.</span> Dans le Q-learning, la « valeur Q » d'un couple (état, action) estime…</div>
+      <button class="opt" data-correct="true">la récompense future totale attendue si on prend cette action<span class="mark"></span></button>
+      <button class="opt" data-correct="false">la probabilité que cette action soit autorisée<span class="mark"></span></button>
+      <button class="opt" data-correct="false">le nombre de fois où l'action a déjà été choisie<span class="mark"></span></button>
+      <div class="explain">Q estime le <b>gain futur cumulé</b>. L'agent choisit l'action de plus haute valeur Q. Ce n'est ni un comptage ni une probabilité de légalité.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q2.</span> Le « Deep » de DQN correspond à…</div>
+      <button class="opt" data-correct="false">une exploration plus profonde de l'arbre des actions<span class="mark"></span></button>
+      <button class="opt" data-correct="true">un réseau de neurones qui remplace la table de valeurs Q<span class="mark"></span></button>
+      <button class="opt" data-correct="false">une récompense calculée sur plusieurs niveaux<span class="mark"></span></button>
+      <div class="explain">Quand les états sont trop nombreux pour une table, un réseau <b>approxime</b> les valeurs Q&nbsp;: « Deep Q-Network ».</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q3.</span> Le dilemme « exploration / exploitation » oppose…</div>
+      <button class="opt" data-correct="false">l'usage du CPU à celui du GPU<span class="mark"></span></button>
+      <button class="opt" data-correct="false">le jeu d'entraînement au jeu de test<span class="mark"></span></button>
+      <button class="opt" data-correct="true">tester de nouvelles actions vs jouer celles connues comme rentables<span class="mark"></span></button>
+      <div class="explain">Trop exploiter → l'agent stagne ; trop explorer → il n'apprend jamais à gagner. Tout est dans l'équilibre.</div>
+    </div>
+  </div>
+</section>
+
+<!-- S6-8 -->
+<section id="w68">
+  <div class="week"><div class="wtag">Semaines 6–8</div><h3>Traitement du langage naturel (NLP)</h3></div>
+  <p><strong>Objectif&nbsp;:</strong> traiter du texte et construire un modèle de langue. Le socle direct des LLM.</p>
+  <h4>Du texte aux nombres</h4>
+  <p>Un modèle ne comprend que des nombres. Deux étapes&nbsp;: la <span class="term">tokenisation</span> (découper en tokens numérotés) puis le <span class="term">plongement</span> (embedding&nbsp;: chaque token → un vecteur qui capte le sens, au point que <code>roi − homme + femme ≈ reine</code>).</p>
+  <h4>De la mémoire à l'attention</h4>
+  <p>Les anciens <span class="term">RNN/LSTM</span> lisaient mot à mot et oubliaient le contexte lointain. Le <span class="term">Transformer</span> (2017) résout ça par l'<span class="term">attention</span>&nbsp;: chaque mot pondère l'importance de tous les autres. Un <span class="term">modèle de langue</span> ne fait qu'une chose&nbsp;: prédire le token suivant — répété, cela produit des phrases.</p>
+  <div class="code-cap">Tokeniser puis générer avec Hugging Face</div>
+  <pre><span class="k">from</span> transformers <span class="k">import</span> AutoTokenizer, pipeline
+
+tok = AutoTokenizer.from_pretrained(<span class="s">"gpt2"</span>)
+tok(<span class="s">"Le chat dort"</span>)[<span class="s">"input_ids"</span>]     <span class="o"># → [1026, 4758, 8501] (identifiants)</span>
+
+gen = pipeline(<span class="s">"text-generation"</span>, model=<span class="s">"gpt2"</span>)
+gen(<span class="s">"En 2026, l'IA appliquée"</span>, max_length=<span class="s">20</span>)  <span class="c"># prédit les tokens suivants</span></pre>
+  <dl class="gloss">
+    <dt>Token / Embedding</dt><dd>Unité de texte numérotée / vecteur représentant son sens.</dd>
+    <dt>Attention</dt><dd>Pondère l'importance de chaque mot du contexte.</dd>
+    <dt>Transformer</dt><dd>Architecture fondée sur l'attention, base des LLM.</dd>
+  </dl>
+  <details><summary>Approfondir — le mécanisme d'attention (Query, Key, Value)</summary><div class="d-body">Chaque mot produit trois vecteurs&nbsp;: une <b>Requête</b> (Query), une <b>Clé</b> (Key) et une <b>Valeur</b> (Value). Le score entre deux mots = Query de l'un · Key de l'autre&nbsp;; un <i>softmax</i> transforme ces scores en poids qui somment à 1. La nouvelle représentation d'un mot = la somme des <b>Values</b> pondérée par ces poids — autrement dit «&nbsp;combien chaque autre mot doit influencer celui-ci&nbsp;». Le <i>multi-head</i> répète l'opération en parallèle pour capter plusieurs types de relations (grammaire, sens, coréférence…).</div></details>
+
+  <div class="exo">
+    <div class="exo-head">Exercice — du texte aux nombres</div>
+    <div class="exo-task"><p>Décris les <b>deux étapes</b> pour transformer « Le chat dort » en entrée d'un modèle, et ce que produit chacune.</p></div>
+    <button class="exo-btn" type="button">Afficher la solution</button>
+    <div class="exo-solution"><div class="sol-lbl">Solution</div>
+      <p><b>1) Tokenisation</b> → une suite d'entiers, ex. <code>[1026, 4758, 8501]</code>.</p>
+      <p><b>2) Embedding</b> → chaque entier devient un vecteur de sens → une matrice <code>(3, d)</code> que le modèle traite.</p>
+    </div>
+  </div>
+  <div class="quiz" data-quiz>
+    <div class="quiz-head"><span class="dot"></span> Quiz · Semaines 6–8</div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q1.</span> Un <em>embedding</em>, c'est…</div>
+      <button class="opt" data-correct="false">attribuer un identifiant entier unique à chaque mot<span class="mark"></span></button>
+      <button class="opt" data-correct="true">représenter le sens d'un token par un vecteur, proximité géométrique = proximité de sens<span class="mark"></span></button>
+      <button class="opt" data-correct="false">compresser le texte pour gagner de la place<span class="mark"></span></button>
+      <div class="explain">Attribuer un entier, c'est la <i>tokenisation</i> (étape d'avant). L'embedding transforme cet entier en <b>vecteur de sens</b>.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q2.</span> L'avantage clé du Transformer sur un RNN classique&nbsp;:</div>
+      <button class="opt" data-correct="false">il traite les mots un par un, strictement de gauche à droite<span class="mark"></span></button>
+      <button class="opt" data-correct="true">l'attention relie chaque mot à tout le contexte, même lointain<span class="mark"></span></button>
+      <button class="opt" data-correct="false">il n'a pas besoin d'être entraîné sur des données<span class="mark"></span></button>
+      <div class="explain">Traiter les mots séquentiellement est justement la <i>limite du RNN</i>. L'attention, elle, met tous les mots en relation d'un coup.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q3.</span> Fondamentalement, un modèle de langue génératif…</div>
+      <button class="opt" data-correct="false">recherche la réponse dans une base de phrases toutes faites<span class="mark"></span></button>
+      <button class="opt" data-correct="false">traduit la question en requête SQL<span class="mark"></span></button>
+      <button class="opt" data-correct="true">prédit le token suivant le plus probable, de façon répétée<span class="mark"></span></button>
+      <div class="explain">La génération = prédiction répétée du prochain token. Simple en principe, puissant à grande échelle.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q4.</span> « roi − homme + femme ≈ reine » illustre que…</div>
+      <button class="opt" data-correct="true">les embeddings capturent des relations de sens dans leur géométrie<span class="mark"></span></button>
+      <button class="opt" data-correct="false">le modèle fait de l'arithmétique sur les lettres des mots<span class="mark"></span></button>
+      <button class="opt" data-correct="false">les mots sont rangés par ordre alphabétique<span class="mark"></span></button>
+      <div class="explain">On additionne des <b>vecteurs de sens</b>, pas des lettres. La régularité géométrique de l'espace d'embedding rend l'analogie possible.</div>
+    </div>
+  </div>
+</section>
+
+<!-- S9-11 -->
+<!-- LLM ANATOMY (bonus, d'après le rapport Kimi K3) -->
+<section id="llm">
+  <div class="week"><div class="wtag">Bonus · d'après un vrai rapport 2026</div><h3>Anatomie d'un LLM moderne</h3></div>
+  <p>Les semaines 6–8 expliquent <em>comment</em> un modèle de langue fonctionne. Mais quand tu ouvriras le rapport technique d'un vrai modèle récent, tu croiseras un vocabulaire de plus&nbsp;: «&nbsp;2,8&nbsp;billions de paramètres&nbsp;», «&nbsp;Mixture-of-Experts&nbsp;», «&nbsp;fenêtre de 1M de tokens&nbsp;», «&nbsp;RLHF&nbsp;», «&nbsp;effort de raisonnement&nbsp;»… Voici ces pièces manquantes, expliquées simplement. (Exemples chiffrés tirés du rapport <strong>Kimi K3</strong>, un modèle ouvert de 2026.)</p>
+
+  <h4>1 · Les paramètres = la taille du modèle</h4>
+  <p>Souviens-toi&nbsp;: apprendre, c'est ajuster des <span class="term">poids</span>. Les <span class="term">paramètres</span> d'un modèle, ce sont justement tous ces poids réunis. On les compte en milliards, voire en <strong>billions</strong> (1 billion = mille milliards). Kimi K3 en a <strong>2,8 billions</strong>. En gros&nbsp;: plus de paramètres = plus de «&nbsp;capacité&nbsp;» à mémoriser et à généraliser — mais ce n'est pas le seul facteur (les données et l'entraînement comptent autant).</p>
+
+  <h4>2 · Mixture-of-Experts : n'activer que ce qu'il faut</h4>
+  <p>Faire passer <em>chaque</em> mot par 2,8 billions de paramètres coûterait une fortune. L'astuce <span class="term">Mixture-of-Experts</span> (MoE)&nbsp;: au lieu d'un seul gros cerveau, le modèle contient une grande équipe de «&nbsp;spécialistes&nbsp;» (des <span class="term">experts</span>), et un petit <span class="term">routeur</span> choisit, pour chaque token, les quelques experts les plus pertinents.</p>
+  <figure class="diagram">
+    <div class="dtitle">Mixture-of-Experts : un routeur choisit quelques experts</div>
+    <svg viewBox="0 0 580 250" role="img" aria-label="Schéma Mixture-of-Experts : un token, un routeur, plusieurs experts dont deux activés, une sortie">
+      <defs><marker id="ahM" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path class="nn-head" d="M0,0 L9,4.5 L0,9 z"/></marker></defs>
+      <rect class="fb-box" x="14" y="103" width="86" height="44" rx="10"/><text class="fb-txt" x="57" y="125">token</text>
+      <rect class="fb-box net" x="126" y="103" width="96" height="44" rx="10"/><text class="fb-txt" x="174" y="119">Routeur</text><text class="fb-sub" x="174" y="135">choisit</text>
+      <path class="nn-flow" d="M100 125 L122 125" marker-end="url(#ahM)"/>
+      <!-- experts -->
+      <rect class="fb-box" x="300" y="18" width="150" height="26" rx="7" style="opacity:.38"/><text class="fb-sub" x="375" y="35" style="opacity:.55">expert 1</text>
+      <rect class="fb-box upd" x="300" y="54" width="150" height="26" rx="7"/><text class="fb-txt" x="375" y="71" style="font-size:11px">expert 2 ✓</text>
+      <rect class="fb-box" x="300" y="90" width="150" height="26" rx="7" style="opacity:.38"/><text class="fb-sub" x="375" y="107" style="opacity:.55">expert 3</text>
+      <rect class="fb-box upd" x="300" y="126" width="150" height="26" rx="7"/><text class="fb-txt" x="375" y="143" style="font-size:11px">expert 4 ✓</text>
+      <rect class="fb-box" x="300" y="162" width="150" height="26" rx="7" style="opacity:.38"/><text class="fb-sub" x="375" y="179" style="opacity:.55">expert 5</text>
+      <text class="nn-sub" x="375" y="208">… 896 experts au total</text>
+      <!-- router to experts -->
+      <path class="nn-edge" d="M222 125 L300 31" style="opacity:.3"/>
+      <path class="nn-flow" d="M222 125 L300 67" marker-end="url(#ahM)"/>
+      <path class="nn-edge" d="M222 125 L300 103" style="opacity:.3"/>
+      <path class="nn-flow" d="M222 125 L300 139" marker-end="url(#ahM)"/>
+      <path class="nn-edge" d="M222 125 L300 175" style="opacity:.3"/>
+      <!-- experts to output -->
+      <rect class="fb-box" x="496" y="103" width="70" height="44" rx="10"/><text class="fb-txt" x="531" y="125">sortie</text>
+      <path class="nn-flow" d="M450 67 L494 120" marker-end="url(#ahM)"/>
+      <path class="nn-flow" d="M450 139 L494 130" marker-end="url(#ahM)"/>
+    </svg>
+    <figcaption>Kimi K3 n'active que <b>16 experts sur 896</b> à chaque token. Résultat&nbsp;: la <b>puissance</b> d'un modèle de 2,8&nbsp;billions de paramètres, pour le <b>coût de calcul</b> d'un modèle de 104&nbsp;milliards seulement (les paramètres «&nbsp;activés&nbsp;»).</figcaption>
+  </figure>
+  <div class="note key"><div class="lbl">À retenir</div><p>Deux chiffres dans les rapports&nbsp;: les paramètres <strong>totaux</strong> (toute la connaissance stockée) et les paramètres <strong>activés</strong> (ce qui travaille réellement à chaque token). MoE = beaucoup de savoir, peu de calcul par mot.</p></div>
+  <details><summary>Approfondir — pourquoi le MoE est-il malin ?</summary><div class="d-body">Différents experts se spécialisent (code, langues, maths…). Comme on n'en réveille qu'une poignée par token, on peut faire grossir énormément le <b>savoir total</b> sans faire exploser le coût de chaque réponse. Le point délicat, c'est d'<b>équilibrer</b> le routeur pour que tous les experts servent (sinon certains ne s'entraînent jamais)&nbsp;: c'est tout l'enjeu du «&nbsp;load balancing&nbsp;» mentionné dans ces rapports.</div></details>
+
+  <h4>3 · La fenêtre de contexte</h4>
+  <p>La <span class="term">fenêtre de contexte</span>, c'est la quantité de texte que le modèle peut «&nbsp;garder en tête&nbsp;» en une fois, mesurée en <span class="term">tokens</span>. Kimi K3 monte à <strong>1&nbsp;million de tokens</strong> — l'équivalent de plusieurs livres, ou d'un énorme projet de code. Au-delà, le plus ancien «&nbsp;sort&nbsp;» de la fenêtre et est oublié. C'est directement lié à l'attention (semaines 6–8)&nbsp;: relier chaque mot à tous les autres devient très coûteux quand le texte est long, d'où les recherches sur des attentions plus «&nbsp;efficaces&nbsp;».</p>
+
+  <h4>4 · Comment un LLM devient un assistant</h4>
+  <p>Un modèle fraîchement pré-entraîné sait <em>beaucoup</em>, mais ne sait pas <em>obéir</em>&nbsp;: il complète du texte, sans forcément répondre à ta question. Le rapport décrit le parcours en plusieurs étapes qui le transforme en assistant utile&nbsp;:</p>
+  <figure class="diagram">
+    <div class="dtitle">Du texte brut à l'assistant</div>
+    <svg viewBox="0 0 580 130" role="img" aria-label="Pipeline : pré-entraînement, SFT, RLHF, distillation, assistant">
+      <defs><marker id="ahP" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path class="nn-head" d="M0,0 L9,4.5 L0,9 z"/></marker></defs>
+      <rect class="fb-box net" x="8" y="42" width="108" height="52" rx="10"/><text class="fb-txt" x="62" y="62">Pré-entraînement</text><text class="fb-sub" x="62" y="80">prédire le mot suivant</text>
+      <rect class="fb-box" x="140" y="42" width="92" height="52" rx="10"/><text class="fb-txt" x="186" y="62">SFT</text><text class="fb-sub" x="186" y="80">exemples de réponses</text>
+      <rect class="fb-box loss" x="256" y="42" width="108" height="52" rx="10"/><text class="fb-txt" x="310" y="62">RL + feedback</text><text class="fb-sub" x="310" y="80">récompenses</text>
+      <rect class="fb-box" x="388" y="42" width="104" height="52" rx="10"/><text class="fb-txt" x="440" y="62">Distillation</text><text class="fb-sub" x="440" y="80">experts → 1 modèle</text>
+      <rect class="fb-box upd" x="516" y="42" width="56" height="52" rx="10"/><text class="fb-txt" x="544" y="68" style="font-size:11px">Assistant</text>
+      <path class="nn-flow" d="M116 68 L138 68" marker-end="url(#ahP)"/>
+      <path class="nn-flow" d="M232 68 L254 68" marker-end="url(#ahP)"/>
+      <path class="nn-flow" d="M364 68 L386 68" marker-end="url(#ahP)"/>
+      <path class="nn-flow" d="M492 68 L514 68" marker-end="url(#ahP)"/>
+    </svg>
+    <figcaption>Pré-entraînement (il apprend le monde) → SFT (on lui montre de bonnes réponses) → RL avec feedback (on récompense les meilleures) → distillation (plusieurs experts fusionnés en un seul modèle).</figcaption>
+  </figure>
+  <ul>
+    <li><span class="term">Pré-entraînement</span> — prédire le mot suivant sur d'immenses quantités de texte (et d'images). Il acquiert des connaissances et le langage.</li>
+    <li><span class="term">SFT</span> (fine-tuning supervisé) — on lui montre des milliers d'exemples «&nbsp;question → bonne réponse&nbsp;»&nbsp;: il apprend à <strong>suivre des instructions</strong>.</li>
+    <li><span class="term">RL avec feedback</span> (souvent appelé RLHF) — on <strong>récompense</strong> ses meilleures réponses (via un «&nbsp;modèle de récompense&nbsp;» qui les note) pour l'<strong>aligner</strong> sur nos préférences. C'est l'apprentissage par renforcement de la semaine 5, appliqué au langage.</li>
+    <li><span class="term">Distillation</span> — plusieurs modèles «&nbsp;experts&nbsp;» (un par domaine) servent de professeurs pour entraîner un <strong>seul</strong> modèle final qui hérite de leurs compétences.</li>
+  </ul>
+  <details><summary>Approfondir — c'est quoi un « modèle de récompense » ?</summary><div class="d-body">Pour du code ou des maths, on peut vérifier automatiquement si la réponse est juste. Mais pour «&nbsp;écris un e-mail poli&nbsp;», il n'y a pas de vérité unique. On entraîne alors un second modèle, le <b>modèle de récompense</b>, à imiter les préférences humaines&nbsp;: on lui montre des paires de réponses avec «&nbsp;celle-ci est meilleure&nbsp;», et il apprend à donner une note. Le RL utilise ensuite cette note comme récompense. (Kimi K3 va plus loin avec un <i>juge</i> qui rédige une grille de critères avant de noter.)</div></details>
+
+  <h4>5 · Le « raisonnement » et l'effort</h4>
+  <p>Les modèles récents peuvent <strong>«&nbsp;réfléchir&nbsp;»</strong> avant de répondre&nbsp;: ils génèrent d'abord une suite de pensées intermédiaires (une <span class="term">chaîne de pensée</span>), invisible ou repliée, puis la réponse finale. Donner plus de «&nbsp;budget de réflexion&nbsp;» améliore souvent la qualité sur les problèmes difficiles — au prix de plus de temps et de calcul. Kimi K3 propose d'ailleurs plusieurs niveaux d'<span class="term">effort</span> (bas / élevé / max). On appelle ça le <span class="term">calcul au moment de la réponse</span> (test-time compute)&nbsp;: un deuxième levier, en plus de la taille du modèle.</p>
+
+  <h4>6 · Multimodal : texte + images dans un seul modèle</h4>
+  <p>Longtemps, la vision (semaines 3–4) et le langage (semaines 6–8) étaient deux mondes séparés. Un modèle <span class="term">multimodal</span> «&nbsp;natif&nbsp;» comme Kimi K3 comprend les deux d'un coup&nbsp;: on peut lui donner une image <em>et</em> du texte dans la même conversation. Techniquement, l'image est transformée en tokens (via une «&nbsp;tour de vision&nbsp;») que le modèle traite comme des mots.</p>
+  <details><summary>Approfondir — deux notions bonus des rapports : quantification & lois d'échelle</summary><div class="d-body"><b>Quantification (quantization)</b>&nbsp;: stocker les poids avec moins de précision (par ex. 4 bits au lieu de 16) pour un modèle plus léger et plus rapide, en perdant très peu de qualité. <b>Lois d'échelle (scaling laws)</b>&nbsp;: des courbes qui prédisent combien un modèle s'améliorera si on augmente sa taille, ses données et son calcul — elles servent à décider <i>à l'avance</i> comment dépenser au mieux le budget d'entraînement.</div></details>
+
+  <div class="note intuition"><div class="lbl">Ce que tu peux faire maintenant</div><p>Relis l'abstract d'un rapport comme Kimi K3&nbsp;: «&nbsp;MoE de 2,8&nbsp;billions de paramètres, 104&nbsp;milliards activés, contexte 1M, RL multi-effort&nbsp;»… chaque terme devrait désormais te parler. C'est exactement le genre de veille utile pendant la formation.</p></div>
+
+  <div class="quiz" data-quiz>
+    <div class="quiz-head"><span class="dot"></span> Quiz · Anatomie d'un LLM</div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q1.</span> Kimi K3 a 2,8&nbsp;billions de paramètres mais n'en utilise que 104&nbsp;milliards par token. Pourquoi&nbsp;?</div>
+      <button class="opt" data-correct="true">un routeur (MoE) n'active qu'une petite partie des experts pour chaque token<span class="mark"></span></button>
+      <button class="opt" data-correct="false">le reste des paramètres est corrompu et ignoré<span class="mark"></span></button>
+      <button class="opt" data-correct="false">2,8&nbsp;billions est une faute de frappe pour 104&nbsp;milliards<span class="mark"></span></button>
+      <div class="explain">C'est le principe du <b>Mixture-of-Experts</b>&nbsp;: savoir total énorme, mais seuls quelques experts (16 sur 896) travaillent par token → coût réduit.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q2.</span> La « fenêtre de contexte » d'un LLM, c'est…</div>
+      <button class="opt" data-correct="false">le nombre total de paramètres du modèle<span class="mark"></span></button>
+      <button class="opt" data-correct="true">la quantité de texte (en tokens) qu'il peut garder en tête d'un coup<span class="mark"></span></button>
+      <button class="opt" data-correct="false">la vitesse de génération, en tokens par seconde<span class="mark"></span></button>
+      <div class="explain">C'est sa «&nbsp;mémoire de travail&nbsp;». Au-delà de la fenêtre (1M tokens pour Kimi K3), le texte le plus ancien est oublié.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q3.</span> Quelle étape apprend surtout au modèle à <em>suivre des instructions et s'aligner</em> sur nos préférences (plutôt qu'à juste prédire le mot suivant)&nbsp;?</div>
+      <button class="opt" data-correct="false">la tokenisation<span class="mark"></span></button>
+      <button class="opt" data-correct="true">le fine-tuning supervisé (SFT) puis le RL avec feedback<span class="mark"></span></button>
+      <button class="opt" data-correct="false">le pré-entraînement seul<span class="mark"></span></button>
+      <div class="explain">Le pré-entraînement donne les connaissances&nbsp;; ce sont le <b>SFT</b> (exemples de bonnes réponses) et le <b>RL avec feedback</b> (récompenses) qui en font un assistant obéissant et aligné.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q4.</span> Augmenter l'« effort de raisonnement » avant de répondre…</div>
+      <button class="opt" data-correct="true">améliore souvent la qualité sur les problèmes difficiles, au prix de plus de temps/calcul<span class="mark"></span></button>
+      <button class="opt" data-correct="false">est toujours gratuit et instantané<span class="mark"></span></button>
+      <button class="opt" data-correct="false">diminue le nombre de paramètres du modèle<span class="mark"></span></button>
+      <div class="explain">C'est le <b>calcul au moment de la réponse</b> (test-time compute)&nbsp;: laisser le modèle «&nbsp;réfléchir&nbsp;» plus longtemps aide, mais coûte plus cher.</div>
+    </div>
+  </div>
+</section>
+
+<section id="w911">
+  <div class="week"><div class="wtag">Semaines 9–11</div><h3>IA générative</h3></div>
+  <p><strong>Objectif&nbsp;:</strong> passer de l'IA qui <em>classe</em> à l'IA qui <em>crée</em>, et adapter de grands modèles.</p>
+  <h4>Deux familles pour générer des images</h4>
+  <ul>
+    <li><span class="term">GAN</span> — deux réseaux s'affrontent&nbsp;: un <em>générateur</em> fabrique de fausses images, un <em>discriminateur</em> les démasque. La compétition pousse au réalisme.</li>
+    <li><span class="term">Diffusion</span> — on apprend à <em>retirer</em> du bruit&nbsp;; à l'usage, on part d'un bruit pur qu'on « débruite » jusqu'à une image, guidé par un texte.</li>
+  </ul>
+  <div class="note intuition"><div class="lbl">Diffusion, en image</div><p>Une photo peu à peu couverte de « neige » (bruit). Le modèle apprend le chemin inverse&nbsp;: enlever la neige étape par étape. On lui donne du bruit + une description, il reconstruit une image.</p></div>
+  <h4>Le fine-tuning</h4>
+  <p>Réentraîner un GPT complet coûte des millions. Le <span class="term">fine-tuning</span> reprend un grand modèle et l'ajuste sur un petit jeu de données spécifique&nbsp;: c'est ce qui rend ces modèles exploitables en entreprise.</p>
+  <div class="code-cap">Génération d'image par diffusion (bibliothèque diffusers)</div>
+  <pre><span class="k">from</span> diffusers <span class="k">import</span> StableDiffusionPipeline
+
+pipe = StableDiffusionPipeline.from_pretrained(<span class="s">"stable-diffusion-v1-5"</span>)
+image = pipe(<span class="s">"un chat astronaute, style aquarelle"</span>).images[<span class="s">0</span>]  <span class="c"># prompt → image</span>
+image.save(<span class="s">"chat.png"</span>)</pre>
+  <dl class="gloss">
+    <dt>Générateur / Discriminateur</dt><dd>Les deux réseaux rivaux d'un GAN.</dd>
+    <dt>Diffusion</dt><dd>Génération par débruitage progressif.</dd>
+    <dt>Fine-tuning / Prompt</dt><dd>Adapter un grand modèle / la consigne qui guide la génération.</dd>
+  </dl>
+  <details><summary>Approfondir — les deux passes d'un modèle de diffusion</summary><div class="d-body"><b>Entraînement (passe avant)</b>&nbsp;: on ajoute du bruit gaussien à une image en T petites étapes, jusqu'au bruit pur, et on apprend à un réseau à <b>prédire le bruit</b> ajouté à chaque étape. <b>Génération (passe inverse)</b>&nbsp;: on part de bruit pur et, étape après étape, le réseau prédit le bruit à retirer&nbsp;; l'image émerge peu à peu. <b>Guidage par texte</b>&nbsp;: les embeddings du prompt conditionnent le débruitage&nbsp;; on peut même amplifier leur influence (<i>classifier-free guidance</i>) pour coller davantage à la description.</div></details>
+
+  <div class="exo">
+    <div class="exo-head">Exercice — décider d'une approche</div>
+    <div class="exo-task"><p>Une PME veut générer des visuels dans son <b>style</b> propre et dispose de ~500 images de marque. Recommande une approche, puis nomme un <b>risque</b>.</p></div>
+    <button class="exo-btn" type="button">Afficher la solution</button>
+    <div class="exo-solution"><div class="sol-lbl">Solution</div>
+      <p><b>Approche</b>&nbsp;: <b>fine-tuner</b> un modèle de diffusion pré-entraîné sur les 500 images.</p>
+      <p><b>Risque</b>&nbsp;: <b>surapprentissage</b> — avec trop peu d'images/trop d'étapes, le modèle recopie au lieu de généraliser (+ questions de droits sur les données).</p>
+    </div>
+  </div>
+  <div class="quiz" data-quiz>
+    <div class="quiz-head"><span class="dot"></span> Quiz · Semaines 9–11</div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q1.</span> Dans un GAN, le rôle du <em>discriminateur</em> est de…</div>
+      <button class="opt" data-correct="false">générer les images finales à partir du bruit<span class="mark"></span></button>
+      <button class="opt" data-correct="true">distinguer les vraies images des fausses produites par le générateur<span class="mark"></span></button>
+      <button class="opt" data-correct="false">compresser les images pour l'entraînement<span class="mark"></span></button>
+      <div class="explain">Générer, c'est le rôle du <i>générateur</i>. Le discriminateur <b>juge</b> — et sa critique fait progresser le générateur.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q2.</span> Un modèle de diffusion produit une image en…</div>
+      <button class="opt" data-correct="false">assemblant des morceaux d'images existantes<span class="mark"></span></button>
+      <button class="opt" data-correct="false">prédisant les pixels un par un, de gauche à droite<span class="mark"></span></button>
+      <button class="opt" data-correct="true">partant d'un bruit aléatoire et le débruitant progressivement<span class="mark"></span></button>
+      <div class="explain">Il ne colle pas de morceaux et ne procède pas pixel par pixel&nbsp;: il <b>débruite</b> par étapes, guidé par le prompt.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q3.</span> Un piège du fine-tuning à garder en tête&nbsp;:</div>
+      <button class="opt" data-correct="true">avec trop peu de données, il peut surapprendre et recopier les exemples<span class="mark"></span></button>
+      <button class="opt" data-correct="false">il garantit l'absence de tout surapprentissage<span class="mark"></span></button>
+      <button class="opt" data-correct="false">il réduit toujours la taille du modèle final<span class="mark"></span></button>
+      <div class="explain">Le fine-tuning n'immunise pas contre l'overfitting — au contraire, sur un petit jeu il y est <b>plus</b> exposé. Il ne change pas la taille du modèle.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q4.</span> Qu'est-ce qui distingue GAN et diffusion (tous deux génèrent des images)&nbsp;?</div>
+      <button class="opt" data-correct="false">le GAN ne génère que du texte, la diffusion que des images<span class="mark"></span></button>
+      <button class="opt" data-correct="true">le GAN oppose deux réseaux ; la diffusion apprend à débruiter par étapes<span class="mark"></span></button>
+      <button class="opt" data-correct="false">la diffusion n'utilise aucun réseau de neurones<span class="mark"></span></button>
+      <div class="explain">Deux mécanismes différents pour le même but&nbsp;: <b>rivalité</b> (GAN) vs <b>débruitage</b> (diffusion). Les deux reposent sur des réseaux.</div>
+    </div>
+  </div>
+</section>
+
+<!-- S12-13 -->
+<section id="w1213">
+  <div class="week"><div class="wtag">Semaines 12–13</div><h3>IA agentique</h3></div>
+  <p><strong>Objectif&nbsp;:</strong> dépasser le modèle qui répond pour un <strong>agent</strong> qui raisonne, utilise des outils et agit en plusieurs étapes. Ta connaissance du dev web y est un atout.</p>
+  <h4>Qu'est-ce qu'un agent ?</h4>
+  <p>Un <span class="term">agent</span> = un LLM dans une <strong>boucle</strong>, doté d'<span class="term">outils</span> (recherche, API, code, fichiers). Le schéma <span class="term">ReAct</span> alterne <em>Réflexion → Action → Observation</em> jusqu'à l'objectif. Le <span class="term">function calling</span> est le pont&nbsp;: le LLM émet un appel structuré, ton code l'exécute. Le <span class="term">RAG</span> injecte des documents récupérés pour ancrer les réponses.</p>
+  <div class="code-cap">Boucle agentique (le motif de base)</div>
+  <pre><span class="k">while</span> <span class="k">not</span> objectif_atteint:
+    pensee   = modele.reflechir(contexte)    <span class="c"># que faire ?</span>
+    action   = modele.choisir_outil(pensee)   <span class="c"># ex: rechercher(...)</span>
+    resultat = executer(action)                <span class="c"># appel réel</span>
+    contexte = contexte + resultat             <span class="c"># on mémorise l'observation</span></pre>
+  <div class="code-cap">Définir un outil pour le function calling</div>
+  <pre>outils = [{
+    <span class="s">"name"</span>: <span class="s">"meteo"</span>,
+    <span class="s">"description"</span>: <span class="s">"Météo d'une ville pour un jour donné"</span>,
+    <span class="s">"parameters"</span>: {<span class="s">"ville"</span>: <span class="s">"str"</span>, <span class="s">"jour"</span>: <span class="s">"str"</span>}
+}]
+reponse = modele.chat(messages, tools=outils)
+<span class="k">if</span> reponse.appel_outil:                   <span class="c"># le LLM DEMANDE d'appeler l'outil</span>
+    obs = meteo(**reponse.arguments)      <span class="c"># TON code l'exécute vraiment</span>
+    messages.append(obs)                  <span class="c"># on renvoie l'observation au modèle</span></pre>
+  <dl class="gloss">
+    <dt>Agent / Outil</dt><dd>LLM en boucle avec objectif / fonction externe qu'il peut appeler.</dd>
+    <dt>Function calling</dt><dd>Le LLM produit un appel structuré exécuté par ton code.</dd>
+    <dt>RAG</dt><dd>Injecter des documents récupérés pour ancrer les réponses.</dd>
+  </dl>
+  <details><summary>Approfondir — mémoire courte, mémoire longue et RAG</summary><div class="d-body"><b>Mémoire courte</b> = la fenêtre de contexte (tout ce qui tient dans le prompt de la conversation en cours). <b>Mémoire longue</b> = une <i>base vectorielle</i>&nbsp;: on stocke des documents sous forme d'embeddings. Le <b>RAG</b> transforme la question en embedding, cherche les documents dont l'embedding est le plus <b>proche</b> (similarité), puis les injecte dans le contexte avant de répondre. Le modèle n'est jamais réentraîné&nbsp;: on lui «&nbsp;souffle&nbsp;» les bonnes sources au bon moment.</div></details>
+
+  <div class="exo">
+    <div class="exo-head">Exercice — dérouler une boucle</div>
+    <div class="exo-task"><p>Un agent reçoit&nbsp;: « Quel temps fera-t-il demain à Genève, faut-il un parapluie ? ». Écris la suite <b>réflexion → action → observation</b>, avec l'outil utilisé.</p></div>
+    <button class="exo-btn" type="button">Afficher la solution</button>
+    <div class="exo-solution"><div class="sol-lbl">Solution</div>
+      <p><b>Réflexion</b>&nbsp;: besoin de la météo. <b>Action</b>&nbsp;: <code>meteo("Genève","demain")</code>. <b>Observation</b>&nbsp;: « pluie 80&nbsp;% ». <b>Réflexion</b>&nbsp;: 80&nbsp;% → parapluie. <b>Action</b>&nbsp;: répondre. Un enchaînement raisonnement/outil/observation&nbsp;: c'est ça, un agent.</p>
+    </div>
+  </div>
+  <div class="quiz" data-quiz>
+    <div class="quiz-head"><span class="dot"></span> Quiz · Semaines 12–13</div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q1.</span> Ce qui distingue un agent d'un simple appel à un LLM&nbsp;:</div>
+      <button class="opt" data-correct="true">il boucle, utilise des outils et enchaîne des étapes vers un objectif<span class="mark"></span></button>
+      <button class="opt" data-correct="false">il répond toujours plus vite qu'un LLM seul<span class="mark"></span></button>
+      <button class="opt" data-correct="false">il fonctionne sans aucun modèle de langage<span class="mark"></span></button>
+      <div class="explain">Un agent = LLM + outils + boucle. Il <b>agit</b>, il ne se contente pas de répondre. Le LLM reste son moteur.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q2.</span> Le RAG sert principalement à…</div>
+      <button class="opt" data-correct="false">ré-entraîner le modèle à chaque requête<span class="mark"></span></button>
+      <button class="opt" data-correct="true">ancrer les réponses dans des documents récupérés (données à jour ou privées)<span class="mark"></span></button>
+      <button class="opt" data-correct="false">accélérer l'inférence du modèle<span class="mark"></span></button>
+      <div class="explain">Le RAG <b>ne réentraîne rien</b>&nbsp;: il fournit au modèle des sources pertinentes au moment de répondre, ce qui réduit les erreurs.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q3.</span> Le « function calling » signifie que…</div>
+      <button class="opt" data-correct="false">le LLM exécute lui-même le code sur ton serveur<span class="mark"></span></button>
+      <button class="opt" data-correct="true">le LLM émet un appel structuré, et ton code l'exécute puis renvoie le résultat<span class="mark"></span></button>
+      <button class="opt" data-correct="false">le LLM compile le programme en binaire<span class="mark"></span></button>
+      <div class="explain">Le modèle ne « lance » rien lui-même&nbsp;: il <b>demande</b> un appel (du JSON), c'est ton code qui exécute — comme un appel d'API que tu contrôles.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q4.</span> Dans le schéma ReAct, la boucle enchaîne&nbsp;:</div>
+      <button class="opt" data-correct="false">Entraînement → Validation → Test<span class="mark"></span></button>
+      <button class="opt" data-correct="false">Observation → Récompense → Politique<span class="mark"></span></button>
+      <button class="opt" data-correct="true">Réflexion → Action → Observation, répété<span class="mark"></span></button>
+      <div class="explain">ReAct = <b>Reason + Act</b>. Les autres options mélangent le vocabulaire du ML (workflow) et du renforcement.</div>
+    </div>
+  </div>
+</section>
+
+<!-- S14-15 -->
+<section id="w1415">
+  <div class="week"><div class="wtag">Semaines 14–15</div><h3>Projet appliqué</h3></div>
+  <p><strong>Objectif&nbsp;:</strong> tout mettre en œuvre sur un projet réel, évalué devant un jury (20–30&nbsp;h, mémoire d'une dizaine de pages).</p>
+  <h4>Une démarche en 6 temps</h4>
+  <ol>
+    <li><strong>Cadrer</strong> le problème comme une tâche d'IA claire (classer&nbsp;? prédire&nbsp;? générer&nbsp;?).</li>
+    <li><strong>Réunir et explorer les données</strong> — ~60&nbsp;% du travail (pandas + Matplotlib).</li>
+    <li><strong>Choisir simple</strong> — souvent scikit-learn ou un modèle pré-entraîné suffit.</li>
+    <li><strong>Établir une <span class="term">baseline</span></strong> puis itérer&nbsp;; surveiller l'écart train/test.</li>
+    <li><strong>Évaluer honnêtement</strong> sur des données jamais vues&nbsp;; assumer les limites.</li>
+    <li><strong>Présenter</strong> le raisonnement, pas seulement la performance.</li>
+  </ol>
+  <div class="note key"><div class="lbl">Conseils de survie</div><p>Choisis un sujet qui te tient à cœur et dont les <strong>données existent déjà</strong>. Vise <strong>petit mais complet</strong>. Une baseline simple qui tourne bat un modèle sophistiqué inachevé la veille de la soutenance.</p></div>
+  <div class="exo">
+    <div class="exo-head">Exercice — choisir un sujet</div>
+    <div class="exo-task"><p><b>(A)</b> « recréer un assistant type ChatGPT » &nbsp;ou&nbsp; <b>(B)</b> « classer les tickets de support de mon entreprise en 5 catégories ». Lequel choisir, et pourquoi&nbsp;?</p></div>
+    <button class="exo-btn" type="button">Afficher la solution</button>
+    <div class="exo-solution"><div class="sol-lbl">Solution</div>
+      <p><b>(B)</b>&nbsp;: périmètre petit mais complet, <b>données existantes</b> (historique de tickets), tâche claire (classification supervisée), faisable en 20–30&nbsp;h. <b>(A)</b> est hors de portée (données, calcul, temps).</p>
+    </div>
+  </div>
+  <div class="quiz" data-quiz>
+    <div class="quiz-head"><span class="dot"></span> Quiz · Semaines 14–15</div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q1.</span> Par quoi vaut-il mieux commencer un projet d'IA&nbsp;?</div>
+      <button class="opt" data-correct="false">choisir tout de suite entre PyTorch et TensorFlow<span class="mark"></span></button>
+      <button class="opt" data-correct="true">cadrer le problème, puis explorer et comprendre les données<span class="mark"></span></button>
+      <button class="opt" data-correct="false">coder immédiatement le réseau le plus performant<span class="mark"></span></button>
+      <div class="explain">Sans problème clair ni données comprises, aucun modèle n'aide — et le choix du framework est très secondaire.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q2.</span> Une « baseline », c'est…</div>
+      <button class="opt" data-correct="false">l'ensemble des données de départ<span class="mark"></span></button>
+      <button class="opt" data-correct="true">un modèle simple servant de point de comparaison à améliorer<span class="mark"></span></button>
+      <button class="opt" data-correct="false">la première couche du réseau<span class="mark"></span></button>
+      <div class="explain">La baseline dit si tes améliorations valent la peine. Sans elle, impossible de savoir si un modèle complexe apporte quelque chose.</div>
+    </div>
+    <div class="qq" data-q>
+      <div class="q-text"><span class="qnum">Q3.</span> Devant le jury, qu'est-ce qui compte le plus&nbsp;?</div>
+      <button class="opt" data-correct="false">uniquement la précision finale obtenue<span class="mark"></span></button>
+      <button class="opt" data-correct="false">la quantité de code produit<span class="mark"></span></button>
+      <button class="opt" data-correct="true">la clarté du raisonnement, la démarche et l'honnêteté sur les limites<span class="mark"></span></button>
+      <div class="explain">Un jury évalue ta <b>maîtrise</b>&nbsp;: pourquoi ces choix, comment tu les as évalués, ce que ça ne fait pas. La performance brute ne suffit pas.</div>
+    </div>
+  </div>
+
+  <div class="note intuition" style="margin-top:26px"><div class="lbl">Dernier mot</div><p>Tu arrives avec un atout&nbsp;: tu sais déjà <strong>construire des systèmes</strong>. L'IA appliquée, c'est en grande partie de l'ingénierie logicielle avec un nouveau type de brique. Ce carnet est ta carte&nbsp;; le reste, c'est la pratique. Bon cours. 🎓</p></div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-title">Carnet de préparation — Développeur·euse d'IA appliquée</div>
+    <p>Support d'étude interactif conçu à partir du programme ifage (15 semaines, avec impactIA). Les concepts et extraits de code sont pédagogiques et simplifiés&nbsp;; réfère-toi aux supports officiels et à tes formateur·rices pour les détails et l'évaluation.</p>
+    <p style="font-size:12.5px;color:var(--ink-faint)">Thème selon les préférences du navigateur · réponses enregistrées localement sur cet appareil.</p>
+    <button class="reset-btn" id="resetBtn">↺ Réinitialiser mes réponses</button>
+  </div>
+</footer>
+<button class="back-top" id="backTop" aria-label="Remonter en haut">↑</button>
+
+<script>
+(function(){
+  "use strict";
+  var root = document.documentElement;
+
+  /* ---------- Thème ---------- */
+  var stored = null;
+  try { stored = localStorage.getItem("ia-carnet-theme"); } catch(e){}
+  if (stored === "dark" || stored === "light") root.setAttribute("data-theme", stored);
+  function currentTheme(){
+    var a = root.getAttribute("data-theme");
+    if (a) return a;
+    return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  }
+  var themeBtn = document.getElementById("themeBtn");
+  function icon(){ themeBtn.textContent = currentTheme() === "dark" ? "☀" : "◐"; }
+  icon();
+  themeBtn.addEventListener("click", function(){
+    var next = currentTheme() === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("ia-carnet-theme", next); } catch(e){}
+    icon();
+  });
+
+  /* ---------- Quiz : SÉLECTIONNER puis VALIDER ---------- */
+  var STORE_KEY = "ia-carnet-answers-v3";
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(STORE_KEY) || "{}") || {}; } catch(e){ saved = {}; }
+
+  var questions = Array.prototype.slice.call(document.querySelectorAll("[data-q]"));
+  var numEl = document.getElementById("scoreNum");
+  document.getElementById("scoreTot").textContent = questions.length;
+
+  function persist(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(saved)); } catch(e){} }
+  function refreshScore(){
+    var n = 0; for (var k in saved){ if (saved[k] && saved[k].c === true) n++; }
+    numEl.textContent = n;
+  }
+  function markSolved(box){
+    var done = Array.prototype.slice.call(box.querySelectorAll("[data-q]"))
+      .every(function(qq){ return qq.getAttribute("data-answered") === "1"; });
+    if (done) box.classList.add("solved");
+  }
+
+  questions.forEach(function(q, idx){
+    var qid = "q" + idx;
+    q.setAttribute("data-qid", qid);
+    var opts = Array.prototype.slice.call(q.querySelectorAll(".opt"));
+    var explain = q.querySelector(".explain");
+    var box = q.closest("[data-quiz]");
+    var picked = -1;
+
+    var actions = document.createElement("div");
+    actions.className = "q-actions";
+    var verify = document.createElement("button");
+    verify.type = "button";
+    verify.className = "verify-btn";
+    verify.textContent = "Vérifier ma réponse";
+    verify.disabled = true;
+    actions.appendChild(verify);
+    if (explain) q.insertBefore(actions, explain); else q.appendChild(actions);
+
+    function reveal(pi){
+      opts.forEach(function(o, i){
+        o.disabled = true;
+        o.classList.remove("selected");
+        var good = o.getAttribute("data-correct") === "true";
+        if (good){ o.classList.add("correct"); o.querySelector(".mark").textContent = "✓"; }
+        if (i === pi && !good){ o.classList.add("wrong"); o.querySelector(".mark").textContent = "✗"; }
+      });
+      if (explain) explain.classList.add("show");
+      var ok = pi > -1 && opts[pi] && opts[pi].getAttribute("data-correct") === "true";
+      verify.disabled = true;
+      verify.classList.add("done");
+      verify.textContent = ok ? "✓ Bonne réponse" : "Solution affichée";
+      q.setAttribute("data-answered", "1");
+      markSolved(box);
+    }
+
+    opts.forEach(function(o, i){
+      o.addEventListener("click", function(){
+        if (q.getAttribute("data-answered") === "1") return;
+        picked = i;
+        opts.forEach(function(x){ x.classList.remove("selected"); x.querySelector(".mark").textContent = ""; });
+        o.classList.add("selected");
+        // Correctif mobile : on garde le bouton désactivé pendant la fenêtre du "ghost click"
+        // (≈300 ms), pour qu'un tap sur une option ne déclenche pas la validation par rebond.
+        verify.disabled = true;
+        clearTimeout(q._t);
+        q._t = setTimeout(function(){
+          if (q.getAttribute("data-answered") !== "1") verify.disabled = false;
+        }, 320);
+      });
+    });
+
+    verify.addEventListener("click", function(){
+      if (picked < 0 || verify.disabled || q.getAttribute("data-answered") === "1") return;
+      var good = opts[picked].getAttribute("data-correct") === "true";
+      saved[qid] = { c: good, p: picked };
+      persist(); refreshScore();
+      reveal(picked);
+    });
+
+    var rec = saved[qid];
+    if (rec && typeof rec === "object") reveal(typeof rec.p === "number" ? rec.p : -1);
+  });
+
+  document.querySelectorAll("[data-quiz]").forEach(markSolved);
+  refreshScore();
+
+  /* ---------- Exercices : solution au clic ---------- */
+  Array.prototype.slice.call(document.querySelectorAll(".exo")).forEach(function(exo){
+    var btn = exo.querySelector(".exo-btn"), sol = exo.querySelector(".exo-solution");
+    if (!btn || !sol) return;
+    btn.addEventListener("click", function(){
+      var open = sol.classList.toggle("show");
+      btn.textContent = open ? "Masquer la solution" : "Afficher la solution";
+    });
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", function(){
+    saved = {};
+    try { localStorage.removeItem(STORE_KEY); } catch(e){}
+    location.reload();
+  });
+
+  /* ---------- Progression + nav ---------- */
+  var progress = document.getElementById("progress"), backTop = document.getElementById("backTop");
+  var tocLinks = Array.prototype.slice.call(document.querySelectorAll(".toc-scroll a"));
+  var tocTargets = tocLinks.map(function(l){ return { id:l.getAttribute("href").slice(1), el:document.getElementById(l.getAttribute("href").slice(1)) }; });
+  function onScroll(){
+    var h = document.documentElement;
+    progress.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + "%";
+    if (h.scrollTop > 600) backTop.classList.add("show"); else backTop.classList.remove("show");
+    var pos = h.scrollTop + 140, cur = null;
+    tocTargets.forEach(function(t){ if (t.el && t.el.offsetTop <= pos) cur = t.id; });
+    tocLinks.forEach(function(l){ l.classList.toggle("active", cur && l.getAttribute("href") === "#" + cur); });
+  }
+  backTop.addEventListener("click", function(){ window.scrollTo({top:0, behavior:"smooth"}); });
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+<script>
+/* Widget produit matriciel animé — isolé, IDs préfixés mv- */
+(function(){
+  "use strict";
+  var A=[[2,1],[0,3]], y=[1,4];
+  var mA=document.getElementById('mvA'),mY=document.getElementById('mvY'),mR=document.getElementById('mvR');
+  if(!mA||!mY||!mR) return;
+  var aC=[],yC=[],rC=[];
+  function mk(cls,txt){var d=document.createElement('div');d.className=cls;d.appendChild(document.createTextNode(txt));return d;}
+  for(var i=0;i<2;i++)for(var j=0;j<2;j++){var c=mk('cell',A[i][j]);c.innerHTML+='<span class="ptr left">▸</span>';aC.push(c);mA.appendChild(c);}
+  for(var k=0;k<2;k++){var c2=mk('cell',y[k]);c2.innerHTML+='<span class="ptr top">▾</span>';yC.push(c2);mY.appendChild(c2);}
+  for(var r=0;r<2;r++){var c3=mk('cell','?');c3.style.color='var(--ink-faint)';rC.push(c3);mR.appendChild(c3);}
+  var steps=[{row:0,col:0},{row:0,col:1,commit:true},{row:1,col:0},{row:1,col:1,commit:true}];
+  var results=[6,12], prods=[[2,4],[0,12]];
+  var idx=-1, timer=null;
+  var L1=document.getElementById('mvL1'),L2=document.getElementById('mvL2'),Sum=document.getElementById('mvSum'),
+      Hint=document.getElementById('mvHint'),bNext=document.getElementById('mvNext'),
+      bAuto=document.getElementById('mvAuto'),bReset=document.getElementById('mvReset');
+  function clearCls(){aC.forEach(function(c){c.className='cell dimmed';});yC.forEach(function(c){c.className='cell dimmed';});}
+  function render(){
+    clearCls();
+    if(idx<0){aC.forEach(function(c){c.className='cell';});yC.forEach(function(c){c.className='cell';});
+      L1.className='line';L2.className='line';Sum.textContent='';
+      Hint.innerHTML='Appuie sur <b>Étape suivante</b> pour lancer le premier pointeur.';bNext.disabled=false;return;}
+    var s=steps[idx],row=s.row,col=s.col;
+    for(var j=0;j<2;j++)aC[row*2+j].className='cell rowlit';
+    aC[row*2+col].className='cell active';
+    for(var k=0;k<2;k++)yC[k].className=(k===col)?'cell active':'cell';
+    var p=prods[row][col];
+    if(col===0){
+      L1.textContent='ligne '+row+', pos 0 :  '+A[row][0]+' × '+y[0]+' = '+p;L1.className='line show';L2.className='line';
+      Sum.innerHTML='somme courante = <span class="val">'+p+'</span>';
+      Hint.innerHTML='Les deux pointeurs sont en <b>position 0</b>. On multiplie <b>'+A[row][0]+' × '+y[0]+' = '+p+'</b> et on garde en mémoire.';
+    }else{
+      L2.textContent='ligne '+row+', pos 1 :  '+A[row][1]+' × '+y[1]+' = '+p;L2.className='line show';
+      Sum.innerHTML='somme = '+prods[row][0]+' + '+p+' = <span class="val">'+results[row]+'</span>';
+      Hint.innerHTML='On avance les deux pointeurs d\u2019un cran (<b>position 1</b>), on multiplie et on <b>additionne</b>. Fin de la ligne '+row+' \u2192 résultat['+row+'] = <b>'+results[row]+'</b>.';
+    }
+    if(s.commit){rC[row].firstChild.nodeValue=results[row];rC[row].className='cell filled';rC[row].style.color='';}
+    bNext.disabled=idx>=steps.length-1;
+    if(idx>=steps.length-1) Hint.innerHTML='Terminé&nbsp;! <b>A @ y = [ '+results[0]+', '+results[1]+' ]</b>. Chaque ligne de A produit une case du résultat.';
+  }
+  function step(){if(idx<steps.length-1){idx++;render();}}
+  function stopAuto(){if(timer){clearInterval(timer);timer=null;bAuto.textContent='\u25B6 Auto';}}
+  function reset(){stopAuto();idx=-1;rC.forEach(function(c){c.firstChild.nodeValue='?';c.className='cell';c.style.color='var(--ink-faint)';});render();}
+  bNext.addEventListener('click',function(){stopAuto();step();});
+  bReset.addEventListener('click',reset);
+  bAuto.addEventListener('click',function(){
+    if(timer){stopAuto();return;}
+    if(idx>=steps.length-1)reset();
+    bAuto.textContent='\u2759\u2759 Pause';
+    timer=setInterval(function(){if(idx>=steps.length-1)stopAuto();else step();},1200);
+  });
+  reset();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+# Shared static file server.
+# TLS is terminated by Traefik; Caddy only speaks plain HTTP on :80 inside pontsun.
+# The document root is resolved from the Host header, so one container serves
+# every site: a request for foo.example.com is served from /srv/foo.example.com.
+{
+	admin off
+	auto_https off
+}
+
+:80 {
+	root * /srv/{host}
+	encode gzip zstd
+	file_server
+	log {
+		output stdout
+		format console
+	}
+}

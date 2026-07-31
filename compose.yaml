@@ -1,0 +1,25 @@
+# One shared Caddy container that serves every static site.
+# It joins the existing external `pontsun` network so Traefik (also on pontsun)
+# can reach it by name. It carries NO Traefik router labels: routing is owned
+# entirely by the generated file provider (~/web/static/sites.yaml), which is
+# therefore the whitelist of hosts allowed to reach Caddy.
+services:
+  caddy:
+    image: caddy:2-alpine
+    container_name: static-caddy
+    restart: unless-stopped
+    networks:
+      - pontsun
+    volumes:
+      # Caddy config, mounted read-only from this same directory.
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # Site roots: each ~/web/static/<domain>/ becomes /srv/<domain>/.
+      - ./:/srv:ro
+    # Belt-and-suspenders: never auto-expose via the docker provider.
+    labels:
+      - traefik.enable=false
+
+networks:
+  pontsun:
+    name: pontsun
+    external: true

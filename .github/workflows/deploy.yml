@@ -1,0 +1,33 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Prevent overlapping deploys; cancel superseded runs.
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger deploy webhook
+        env:
+          HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
+          HOOK_SECRET: ${{ secrets.DEPLOY_HOOK_SECRET }}
+          SHA: ${{ github.sha }}
+          REF: ${{ github.ref }}
+        run: |
+          set -euo pipefail
+
+          BODY="$(printf '{"ref":"%s","after":"%s"}' "$REF" "$SHA")"
+          SIG="$(printf '%s' "$BODY" | openssl dgst -sha256 -hmac "$HOOK_SECRET" -r | cut -d' ' -f1)"
+
+          echo "Posting deploy hook for $REF @ $SHA"
+          curl -sS --fail-with-body -X POST "$HOOK_URL" \
+            -H 'Content-Type: application/json' \
+            -H "X-Hub-Signature-256: sha256=$SIG" \
+            -d "$BODY"

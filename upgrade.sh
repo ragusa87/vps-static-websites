@@ -11,9 +11,8 @@
 #   ~/web/static/sites.yaml               source of truth
 #   ~/web/traefik/dynamic/sites.yaml      installed copy Traefik watches
 #
-# It never touches any other pre-existing file. Existing outputs are backed up
-# to <path>.bak.<UTC timestamp> before being replaced. Writes are atomic
-# (.tmp then mv / cp).
+# It never touches any other pre-existing file. Existing outputs are replaced
+# in place; writes are atomic (.tmp then mv / cp).
 #
 set -euo pipefail
 
@@ -97,24 +96,13 @@ trap 'rm -f "$TMP"' EXIT
 echo "Discovered ${#SITES[@]} site(s):"
 printf '  - %s\n' "${SITES[@]}"
 
-# --- install: back up existing outputs, then replace atomically -------------
-install_output() {
-  local dest="$1"
-  if [ -e "$dest" ]; then
-    local bak="${dest}.bak.${TS}"
-    cp -a "$dest" "$bak"
-    echo "Backed up existing $dest -> $bak"
-  fi
-}
-
+# --- install: replace outputs atomically ------------------------------------
 # source of truth
-install_output "$SOURCE_OUT"
 cp -a "$TMP" "$SOURCE_OUT.new.$$"
 mv "$SOURCE_OUT.new.$$" "$SOURCE_OUT"
 echo "Wrote $SOURCE_OUT"
 
 # installed copy Traefik watches
-install_output "$INSTALLED_OUT"
 cp -a "$SOURCE_OUT" "$INSTALLED_OUT.new.$$"
 mv "$INSTALLED_OUT.new.$$" "$INSTALLED_OUT"
 echo "Installed $INSTALLED_OUT (Traefik will hot-reload it)"

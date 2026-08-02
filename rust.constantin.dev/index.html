@@ -135,9 +135,8 @@ p code, li code, td code, summary code, h3 code, .kv code {
   background: var(--bg-2); border: 1px solid var(--rule);
   border-radius: 3px; padding: .06em .3em; white-space: nowrap;
 }
-/* long inline snippets (e.g. a full struct definition in prose) must wrap
-   so they don't force horizontal overflow on narrow / mobile screens */
-p code.brk, li code.brk { white-space: normal; overflow-wrap: anywhere; }
+/* inline code in prose must wrap on narrow/mobile screens to prevent overflow */
+p code, li code { white-space: normal; overflow-wrap: anywhere; }
 [data-theme="dark"] p code, [data-theme="dark"] li code,
 [data-theme="dark"] td code, [data-theme="dark"] summary code,
 [data-theme="dark"] .kv code { background: var(--bg-3); }
@@ -2396,7 +2395,7 @@ p[<span class="s">"reference"</span>]   <span class="c"># KeyError</span></code>
         <p class="eyebrow">Exercise 06</p>
         <h3>Make an invalid state unrepresentable</h3>
         <p>
-          A colleague models a document with <code class="brk">struct Doc { status: String, published_at:
+          A colleague models a document with <code>struct Doc { status: String, published_at:
           Option&lt;String&gt;, rejection_reason: Option&lt;String&gt; }</code>. List two invalid
           combinations that structure permits, then redesign it as an enum so neither can be written.
         </p>

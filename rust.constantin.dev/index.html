@@ -90,7 +90,8 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+html { box-sizing: border-box; scroll-behavior: smooth; scroll-padding-top: 84px; }
+*, *::before, *::after { box-sizing: inherit; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
@@ -98,6 +99,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 
 body {
   margin: 0;
+  box-sizing: border-box;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--body);
@@ -135,6 +137,8 @@ p code, li code, td code, summary code, h3 code, .kv code {
   background: var(--bg-2); border: 1px solid var(--rule);
   border-radius: 3px; padding: .06em .3em; white-space: nowrap;
 }
+/* inline code in prose must wrap on narrow/mobile screens to prevent overflow */
+p code, li code, td code { white-space: normal; overflow-wrap: anywhere; }
 [data-theme="dark"] p code, [data-theme="dark"] li code,
 [data-theme="dark"] td code, [data-theme="dark"] summary code,
 [data-theme="dark"] .kv code { background: var(--bg-3); }
@@ -162,13 +166,16 @@ p code, li code, td code, summary code, h3 code, .kv code {
 
 /* ---------- top bar ---------- */
 header.bar {
-  position: sticky; top: 0; z-index: 50;
+  position: sticky; top: 0; z-index: 50; width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
   background: var(--bg);
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--rule);
 }
 .bar-in {
+  width: 100%; box-sizing: border-box;
   max-width: 1320px; margin: 0 auto; padding: .6rem 1.25rem;
   display: flex; align-items: center; gap: 1rem;
 }
@@ -205,7 +212,7 @@ button:disabled { opacity: .42; cursor: not-allowed; }
 #navToggle { display: none; }
 
 /* ---------- layout ---------- */
-.shell { max-width: 1320px; margin: 0 auto; padding: 0 1.25rem; display: flex; gap: 2.5rem; }
+.shell { width: 100%; box-sizing: border-box; max-width: 1320px; margin: 0 auto; padding: 0 1.25rem; display: flex; gap: 2.5rem; }
 .rail { width: var(--rail); flex: 0 0 var(--rail); padding: 2.2rem 0 4rem; }
 .rail-sticky { position: sticky; top: 74px; max-height: calc(100vh - 90px); overflow-y: auto; padding-right: .5rem; }
 main { flex: 1 1 auto; min-width: 0; padding: 2.2rem 0 6rem; }
@@ -464,13 +471,13 @@ footer p { font-size: .92rem; color: var(--ink-3); }
 
 <header class="bar">
   <div class="bar-in">
-    <a class="brand" href="#top">rustc<span>::</span>study<span class="brand-long">&nbsp;— for PHP &amp; Python devs</span></a>
+    <a class="brand" href="#top">rust<span>::</span>study<span class="brand-long">&nbsp;— for PHP &amp; Python devs</span></a>
     <div class="bar-spacer"></div>
     <div class="stat" title="Quiz questions answered">
       <span>score <b id="scoreNum">0</b>/<span id="scoreTot">0</span></span>
       <span class="meter" role="progressbar" aria-label="Course progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="meter"><i id="meterFill"></i></span>
     </div>
-    <button id="navToggle" aria-expanded="false" aria-controls="rail">Contents</button>
+    <button id="navToggle" aria-expanded="false" aria-controls="rail">TOC</button>
     <button id="themeBtn" aria-live="polite">Dark</button>
   </div>
 </header>
@@ -1936,6 +1943,14 @@ v.<span class="f">push</span>(<span class="n">4</span>);            <span class=
         <p class="eyebrow">Module 05 · <span class="pill hard">the wall</span></p>
         <h2>Lifetimes: a reference can't outlive its value</h2>
       </div>
+
+      <p class="lede">
+        First, the one-sentence version. A <strong>lifetime</strong> is the span of code during
+        which a reference stays valid — from the moment you borrow a value to the last place that
+        borrow is used. Every reference already has one; most of the time the compiler works it out
+        silently and you never see it. What follows is about the handful of moments when it asks you
+        to <em>name</em> that span, and why naming it changes nothing about how your program runs.
+      </p>
 
       <div class="objective">
         <p class="eyebrow">Objective</p>

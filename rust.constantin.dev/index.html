@@ -90,7 +90,8 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+html { box-sizing: border-box; scroll-behavior: smooth; scroll-padding-top: 84px; }
+*, *::before, *::after { box-sizing: inherit; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
@@ -98,6 +99,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 
 body {
   margin: 0;
+  box-sizing: border-box;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--body);
@@ -165,12 +167,15 @@ p code, li code { white-space: normal; overflow-wrap: anywhere; }
 /* ---------- top bar ---------- */
 header.bar {
   position: sticky; top: 0; z-index: 50; width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
   background: var(--bg);
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--rule);
 }
 .bar-in {
+  width: 100%; box-sizing: border-box;
   max-width: 1320px; margin: 0 auto; padding: .6rem 1.25rem;
   display: flex; align-items: center; gap: 1rem;
 }
@@ -207,7 +212,7 @@ button:disabled { opacity: .42; cursor: not-allowed; }
 #navToggle { display: none; }
 
 /* ---------- layout ---------- */
-.shell { max-width: 1320px; margin: 0 auto; padding: 0 1.25rem; display: flex; gap: 2.5rem; }
+.shell { width: 100%; box-sizing: border-box; max-width: 1320px; margin: 0 auto; padding: 0 1.25rem; display: flex; gap: 2.5rem; }
 .rail { width: var(--rail); flex: 0 0 var(--rail); padding: 2.2rem 0 4rem; }
 .rail-sticky { position: sticky; top: 74px; max-height: calc(100vh - 90px); overflow-y: auto; padding-right: .5rem; }
 main { flex: 1 1 auto; min-width: 0; padding: 2.2rem 0 6rem; }
